@@ -1,0 +1,200 @@
+---
+export interface Props {
+  package: {
+    _id: string;
+    title: string;
+    slug: string;
+    shortDesc: string;
+    longDesc: string;
+    itinerary: Array<{
+      day: number;
+      activities: string[];
+      accommodation: string;
+      meals: string[];
+    }>;
+    minPax: number;
+    maxPax: number;
+    basePricePerPax: number;
+    images: string[];
+    region: string;
+    tags: string[];
+    featured: boolean;
+    inclusions: string[];
+    exclusions: string[];
+    cancellationPolicy: string;
+    termsAndConditions: string;
+    commissionOverride: number;
+  };
+}
+
+const { package: pkg } = Astro.props;
+---
+
+<div class="min-h-screen bg-gray-900 text-white">
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 text-white">
+          {pkg.title}
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 text-gray-300">
+          {pkg.shortDesc}
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+          {pkg.tags.map(tag => (
+            <span class="px-4 py-2 bg-primary-600 text-white rounded-full text-sm font-medium">
+              {tag.replace('-', ' ').toUpperCase()}
+            </span>
+          ))}
+        </div>
+        <div class="text-3xl font-bold text-primary-400">
+          ₹{pkg.basePricePerPax.toLocaleString()} per person
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Package Images -->
+  <section class="py-12 bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {pkg.images.map(image => (
+          <div class="relative overflow-hidden rounded-lg shadow-lg">
+            <img src={image} alt={pkg.title} class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Package Details -->
+  <section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <div class="bg-gray-800 rounded-lg p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-6 text-white">Package Description</h2>
+            <p class="text-gray-300 leading-relaxed text-lg">
+              {pkg.longDesc}
+            </p>
+          </div>
+
+          <!-- Itinerary -->
+          <div class="bg-gray-800 rounded-lg p-8">
+            <h2 class="text-3xl font-bold mb-8 text-white">Detailed Itinerary</h2>
+            <div class="space-y-8">
+              {pkg.itinerary.map(day => (
+                <div class="border-l-4 border-primary-500 pl-6">
+                  <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                      {day.day}
+                    </div>
+                    <h3 class="text-xl font-semibold text-white ml-4">Day {day.day}</h3>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <h4 class="text-lg font-medium text-gray-200 mb-2">Activities:</h4>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                      {day.activities.map(activity => (
+                        <li>{activity}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <h4 class="text-lg font-medium text-gray-200 mb-2">Accommodation:</h4>
+                    <p class="text-gray-300">{day.accommodation}</p>
+                  </div>
+                  
+                  <div>
+                    <h4 class="text-lg font-medium text-gray-200 mb-2">Meals:</h4>
+                    <p class="text-gray-300">{day.meals.join(', ')}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <!-- Booking Card -->
+          <div class="bg-gray-800 rounded-lg p-6 mb-8 sticky top-8">
+            <h3 class="text-2xl font-bold mb-6 text-white">Book This Package</h3>
+            <div class="text-center mb-6">
+              <div class="text-4xl font-bold text-primary-400 mb-2">
+                ₹{pkg.basePricePerPax.toLocaleString()}
+              </div>
+              <div class="text-gray-300">per person</div>
+            </div>
+            
+            <div class="space-y-4 mb-6">
+              <div class="flex justify-between text-gray-300">
+                <span>Group Size:</span>
+                <span class="text-white">{pkg.minPax} - {pkg.maxPax} people</span>
+              </div>
+              <div class="flex justify-between text-gray-300">
+                <span>Duration:</span>
+                <span class="text-white">{pkg.itinerary.length} days</span>
+              </div>
+              <div class="flex justify-between text-gray-300">
+                <span>Region:</span>
+                <span class="text-white capitalize">{pkg.region}</span>
+              </div>
+            </div>
+            
+            <button class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+              Book Now
+            </button>
+          </div>
+
+          <!-- Inclusions & Exclusions -->
+          <div class="bg-gray-800 rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-bold mb-4 text-white">What's Included</h3>
+            <ul class="space-y-2 text-gray-300">
+              {pkg.inclusions.map(inclusion => (
+                <li class="flex items-start">
+                  <span class="text-green-400 mr-2">✓</span>
+                  {inclusion}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="bg-gray-800 rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-4 text-white">What's Not Included</h3>
+            <ul class="space-y-2 text-gray-300">
+              {pkg.exclusions.map(exclusion => (
+                <li class="flex items-start">
+                  <span class="text-red-400 mr-2">✗</span>
+                  {exclusion}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Policies -->
+  <section class="py-16 bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-gray-900 rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-4 text-white">Cancellation Policy</h3>
+            <p class="text-gray-300">{pkg.cancellationPolicy}</p>
+          </div>
+          
+          <div class="bg-gray-900 rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-4 text-white">Terms & Conditions</h3>
+            <p class="text-gray-300">{pkg.termsAndConditions}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

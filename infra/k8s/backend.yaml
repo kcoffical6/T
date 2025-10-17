@@ -1,0 +1,314 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: xyz-tours
+  labels:
+    name: xyz-tours
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xyz-tours-config
+  namespace: xyz-tours
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  API_PREFIX: "api"
+  CORS_ORIGIN: "https://xyztours.com"
+  JWT_EXPIRES_IN: "15m"
+  JWT_REFRESH_EXPIRES_IN: "7d"
+  PAYMENT_EXPIRY_MINUTES: "30"
+  DEFAULT_COMMISSION_PERCENT: "10"
+  DEFAULT_ADVANCE_PERCENT: "30"
+  RATE_LIMIT_TTL: "60"
+  RATE_LIMIT_LIMIT: "100"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: xyz-tours-secrets
+  namespace: xyz-tours
+type: Opaque
+data:
+  MONGODB_URI: <base64-encoded-mongodb-uri>
+  REDIS_URL: <base64-encoded-redis-url>
+  JWT_SECRET: <base64-encoded-jwt-secret>
+  JWT_REFRESH_SECRET: <base64-encoded-jwt-refresh-secret>
+  UPI_MERCHANT_ID: <base64-encoded-upi-merchant-id>
+  PSP_API_KEY: <base64-encoded-psp-api-key>
+  PSP_WEBHOOK_SECRET: <base64-encoded-webhook-secret>
+  S3_BUCKET: <base64-encoded-s3-bucket>
+  S3_REGION: <base64-encoded-s3-region>
+  S3_ACCESS_KEY: <base64-encoded-s3-access-key>
+  S3_SECRET_KEY: <base64-encoded-s3-secret-key>
+  S3_ENDPOINT: <base64-encoded-s3-endpoint>
+  SMTP_HOST: <base64-encoded-smtp-host>
+  SMTP_PORT: <base64-encoded-smtp-port>
+  SMTP_USER: <base64-encoded-smtp-user>
+  SMTP_PASS: <base64-encoded-smtp-pass>
+  SMS_API_KEY: <base64-encoded-sms-api-key>
+  SMS_SENDER_ID: <base64-encoded-sms-sender-id>
+  SENTRY_DSN: <base64-encoded-sentry-dsn>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xyz-tours-backend
+  namespace: xyz-tours
+  labels:
+    app: xyz-tours-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: xyz-tours-backend
+  template:
+    metadata:
+      labels:
+        app: xyz-tours-backend
+    spec:
+      containers:
+      - name: backend
+        image: xyz-tours/backend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: NODE_ENV
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: PORT
+        - name: API_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: API_PREFIX
+        - name: CORS_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: CORS_ORIGIN
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: MONGODB_URI
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: REDIS_URL
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: JWT_SECRET
+        - name: JWT_REFRESH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: JWT_REFRESH_SECRET
+        - name: JWT_EXPIRES_IN
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: JWT_EXPIRES_IN
+        - name: JWT_REFRESH_EXPIRES_IN
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: JWT_REFRESH_EXPIRES_IN
+        - name: UPI_MERCHANT_ID
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: UPI_MERCHANT_ID
+        - name: PSP_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: PSP_API_KEY
+        - name: PSP_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: PSP_WEBHOOK_SECRET
+        - name: PAYMENT_EXPIRY_MINUTES
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: PAYMENT_EXPIRY_MINUTES
+        - name: S3_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: S3_BUCKET
+        - name: S3_REGION
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: S3_REGION
+        - name: S3_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: S3_ACCESS_KEY
+        - name: S3_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: S3_SECRET_KEY
+        - name: S3_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: S3_ENDPOINT
+        - name: SMTP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SMTP_HOST
+        - name: SMTP_PORT
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SMTP_PORT
+        - name: SMTP_USER
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SMTP_USER
+        - name: SMTP_PASS
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SMTP_PASS
+        - name: SMS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SMS_API_KEY
+        - name: SMS_SENDER_ID
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SMS_SENDER_ID
+        - name: DEFAULT_COMMISSION_PERCENT
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: DEFAULT_COMMISSION_PERCENT
+        - name: DEFAULT_ADVANCE_PERCENT
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: DEFAULT_ADVANCE_PERCENT
+        - name: RATE_LIMIT_TTL
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: RATE_LIMIT_TTL
+        - name: RATE_LIMIT_LIMIT
+          valueFrom:
+            configMapKeyRef:
+              name: xyz-tours-config
+              key: RATE_LIMIT_LIMIT
+        - name: SENTRY_DSN
+          valueFrom:
+            secretKeyRef:
+              name: xyz-tours-secrets
+              key: SENTRY_DSN
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xyz-tours-backend-service
+  namespace: xyz-tours
+spec:
+  selector:
+    app: xyz-tours-backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xyz-tours-backend-ingress
+  namespace: xyz-tours
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+spec:
+  tls:
+  - hosts:
+    - api.xyztours.com
+    secretName: xyz-tours-backend-tls
+  rules:
+  - host: api.xyztours.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: xyz-tours-backend-service
+            port:
+              number: 80
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: xyz-tours-backend-hpa
+  namespace: xyz-tours
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: xyz-tours-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

@@ -1,0 +1,144 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PackageDetail from '../../components/PackageDetail.astro';
+// import BookingWidget from '../../components/react/BookingWidget.tsx';
+
+export async function getStaticPaths() {
+  // This would typically fetch from your API
+  const packages = [
+    { slug: 'kerala-7-day-backwaters-hill-stations' },
+    { slug: 'tamil-nadu-5-day-temple-circuit-hill-stations' },
+    { slug: 'karnataka-6-day-heritage-nature-tour' },
+    { slug: 'pondicherry-4-day-french-quarter-auroville' },
+    { slug: 'kanyakumari-3-day-coastal-tour' },
+    { slug: 'chennai-5-day-mahabalipuram-heritage-tour' },
+    { slug: 'tirupati-4-day-andhra-temple-tour' },
+    { slug: 'goa-6-day-south-india-coastal-experience' },
+    { slug: 'complete-south-india-8-day-grand-tour' },
+  ];
+
+  return packages.map((pkg) => ({
+    params: { slug: pkg.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+// This would typically fetch package data from your API
+const packageData = {
+  _id: '507f1f77bcf86cd799439011',
+  title: '7-Day Kerala Backwaters & Hill Stations',
+  slug: slug,
+  shortDesc: 'Experience Kerala\'s serene backwaters, misty hill stations, and lush tea gardens in this comprehensive 7-day tour.',
+  longDesc: 'Discover the enchanting beauty of Kerala with this immersive 7-day journey through backwaters, hill stations, and cultural heritage. Cruise through the famous Alleppey backwaters on traditional houseboats, explore the misty hills of Munnar with its sprawling tea plantations, and visit the cultural capital of Kochi. This tour offers the perfect blend of relaxation, adventure, and cultural immersion.',
+  itinerary: [
+    {
+      day: 1,
+      activities: ['Arrival in Kochi', 'Fort Kochi heritage walk', 'Chinese fishing nets', 'Jew Town and synagogue'],
+      accommodation: 'Heritage hotel in Fort Kochi',
+      meals: ['Dinner']
+    },
+    {
+      day: 2,
+      activities: ['Drive to Munnar', 'Tea plantation visit', 'Eravikulam National Park', 'Tea museum'],
+      accommodation: 'Hill station resort in Munnar',
+      meals: ['Breakfast', 'Lunch', 'Dinner']
+    },
+    {
+      day: 3,
+      activities: ['Munnar sightseeing', 'Mattupetty Dam', 'Echo Point', 'Spice plantation tour'],
+      accommodation: 'Hill station resort in Munnar',
+      meals: ['Breakfast', 'Lunch', 'Dinner']
+    },
+    {
+      day: 4,
+      activities: ['Drive to Alleppey', 'Backwater cruise', 'Village walk', 'Traditional Kerala lunch'],
+      accommodation: 'Houseboat on backwaters',
+      meals: ['Breakfast', 'Lunch', 'Dinner']
+    },
+    {
+      day: 5,
+      activities: ['Morning backwater activities', 'Drive to Kumarakom', 'Bird sanctuary visit', 'Ayurvedic spa session'],
+      accommodation: 'Luxury resort in Kumarakom',
+      meals: ['Breakfast', 'Lunch', 'Dinner']
+    },
+    {
+      day: 6,
+      activities: ['Drive to Thekkady', 'Periyar Wildlife Sanctuary', 'Spice plantation tour', 'Cultural show'],
+      accommodation: 'Jungle resort in Thekkady',
+      meals: ['Breakfast', 'Lunch', 'Dinner']
+    },
+    {
+      day: 7,
+      activities: ['Drive back to Kochi', 'Shopping at MG Road', 'Departure'],
+      accommodation: 'None',
+      meals: ['Breakfast']
+    }
+  ],
+  minPax: 2,
+  maxPax: 8,
+  basePricePerPax: 45000,
+  images: [
+    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800',
+    'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800',
+    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800'
+  ],
+  region: 'kerala',
+  tags: ['backwaters', 'hill-stations', 'tea-plantations', 'wildlife', 'cultural'],
+  featured: true,
+  inclusions: [
+    'Accommodation in 4-star hotels and resorts',
+    'All meals as mentioned',
+    'Transportation in AC vehicle',
+    'Houseboat stay with meals',
+    'Entrance fees to monuments',
+    'Professional English-speaking guide',
+    'Airport transfers'
+  ],
+  exclusions: [
+    'International flights',
+    'Personal expenses',
+    'Optional activities',
+    'Tips and gratuities',
+    'Travel insurance'
+  ],
+  cancellationPolicy: 'Free cancellation up to 7 days before departure. 50% refund for cancellations 3-7 days before. No refund for cancellations within 3 days.',
+  termsAndConditions: 'Prices are per person based on double occupancy. Single supplement charges apply. Package subject to availability and weather conditions.',
+  commissionOverride: 12
+};
+
+const pageTitle = `${packageData.title} | XYZ Tours and Travels`;
+const pageDescription = packageData.shortDesc;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <PackageDetail package={packageData} />
+  
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    "name": `${packageData.title} - XYZ Tours`,
+    "description": packageData.shortDesc,
+    "itinerary": [
+      {
+        "@type": "TouristAttraction",
+        "name": "Alleppey Backwaters",
+        "description": "Overnight houseboat with traditional cuisine"
+      },
+      {
+        "@type": "TouristAttraction", 
+        "name": "Munnar Hill Station",
+        "description": "Tea plantations and misty mountains"
+      }
+    ],
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": packageData.basePricePerPax,
+      "availability": "https://schema.org/InStock",
+      "url": `https://xyztours.com/packages/${packageData.slug}`
+    },
+    "tourBookingPage": `https://xyztours.com/book/${packageData.slug}`
+  })}></script>
+</Layout>

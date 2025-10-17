@@ -1,0 +1,1035 @@
+openapi: 3.0.3
+info:
+  title: XYZ Tours and Travels API
+  description: Modern tours and travels platform for South India
+  version: 1.0.0
+  contact:
+    name: XYZ Tours API Support
+    email: api@xyztours.com
+  license:
+    name: Private
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://api.xyztours.com/api
+    description: Production server
+
+security:
+  - bearerAuth: []
+  - cookieAuth: []
+
+paths:
+  # Public endpoints
+  /packages:
+    get:
+      tags: [Packages]
+      summary: Get all packages
+      description: Retrieve all available tour packages with filtering
+      security: []
+      parameters:
+        - name: region
+          in: query
+          schema:
+            type: string
+            enum: [kerala, tamil-nadu, karnataka, pondicherry, andhra-pradesh]
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+        - name: minPax
+          in: query
+          schema:
+            type: integer
+        - name: featured
+          in: query
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: List of packages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  packages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Package'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  /packages/{slug}:
+    get:
+      tags: [Packages]
+      summary: Get package by slug
+      description: Retrieve detailed information about a specific package
+      security: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Package details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageDetail'
+        '404':
+          description: Package not found
+
+  /vehicles/availability:
+    get:
+      tags: [Vehicles]
+      summary: Check vehicle availability
+      description: Check available vehicles for specific dates and type
+      security: []
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: vehicleType
+          in: query
+          schema:
+            type: string
+            enum: [sedan, suv, 7-seater, tempo-traveller, minibus, bus]
+        - name: pickupLocation
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Available vehicles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vehicles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vehicle'
+
+  /bookings:
+    post:
+      tags: [Bookings]
+      summary: Create new booking
+      description: Create a new booking request (status: pending_approval)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+      responses:
+        '201':
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Invalid request data
+        '422':
+          description: Validation error
+
+  # Authentication endpoints
+  /auth/signup:
+    post:
+      tags: [Authentication]
+      summary: User registration
+      description: Register a new user account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid request data
+        '409':
+          description: User already exists
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: User login
+      description: Authenticate user and return JWT tokens
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+
+  /auth/refresh:
+    post:
+      tags: [Authentication]
+      summary: Refresh JWT token
+      description: Get new access token using refresh token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+  # Admin endpoints
+  /admin/bookings:
+    get:
+      tags: [Admin]
+      summary: Get bookings for admin
+      description: Retrieve bookings with filtering for admin dashboard
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending_approval, approved_pending_payment, confirmed, ongoing, completed, cancelled, rejected]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bookings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Booking'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  /admin/bookings/{id}:
+    get:
+      tags: [Admin]
+      summary: Get booking details
+      description: Get detailed information about a specific booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Booking details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /admin/bookings/{id}/approve:
+    post:
+      tags: [Admin]
+      summary: Approve booking
+      description: Approve a pending booking and generate payment request
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveBookingRequest'
+      responses:
+        '200':
+          description: Booking approved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+  /admin/bookings/{id}/reject:
+    post:
+      tags: [Admin]
+      summary: Reject booking
+      description: Reject a pending booking with reason
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RejectBookingRequest'
+      responses:
+        '200':
+          description: Booking rejected successfully
+
+  /admin/bookings/{id}/generate-payment:
+    post:
+      tags: [Admin]
+      summary: Generate payment request
+      description: Generate payment QR/link for approved booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment request generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+
+  /admin/vehicles/{id}/availability-toggle:
+    post:
+      tags: [Admin]
+      summary: Toggle vehicle availability
+      description: Toggle vehicle availability status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Availability toggled successfully
+
+  /admin/vehicles/{id}/block-dates:
+    post:
+      tags: [Admin]
+      summary: Block vehicle dates
+      description: Block vehicle for specific date range
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockDatesRequest'
+      responses:
+        '200':
+          description: Dates blocked successfully
+
+  /admin/reports:
+    get:
+      tags: [Admin]
+      summary: Get admin reports
+      description: Generate revenue, commission, and occupancy reports
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [revenue, commission, occupancy]
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Report data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+
+  # Payment endpoints
+  /payments/generate-upi:
+    post:
+      tags: [Payments]
+      summary: Generate UPI payment
+      description: Generate UPI QR code and payment link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratePaymentRequest'
+      responses:
+        '200':
+          description: Payment request generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+
+  /payments/webhook:
+    post:
+      tags: [Payments]
+      summary: Payment webhook
+      description: Webhook endpoint for payment confirmation
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentWebhook'
+      responses:
+        '200':
+          description: Webhook processed successfully
+
+  # Driver endpoints
+  /driver/assignments:
+    get:
+      tags: [Driver]
+      summary: Get driver assignments
+      description: Get assigned trips for driver
+      responses:
+        '200':
+          description: List of assignments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assignments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DriverAssignment'
+
+  /driver/assignment/{id}/status:
+    patch:
+      tags: [Driver]
+      summary: Update assignment status
+      description: Update trip status (accepted, started, completed)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAssignmentStatusRequest'
+      responses:
+        '200':
+          description: Status updated successfully
+
+  /driver/assignment/{id}/report:
+    post:
+      tags: [Driver]
+      summary: Submit trip report
+      description: Submit photos and notes for completed trip
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TripReportRequest'
+      responses:
+        '200':
+          description: Report submitted successfully
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: refreshToken
+
+  schemas:
+    Package:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        shortDesc:
+          type: string
+        longDesc:
+          type: string
+        itinerary:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItineraryDay'
+        minPax:
+          type: integer
+        maxPax:
+          type: integer
+        basePricePerPax:
+          type: number
+        images:
+          type: array
+          items:
+            type: string
+        region:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        featured:
+          type: boolean
+        commissionOverride:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PackageDetail:
+      allOf:
+        - $ref: '#/components/schemas/Package'
+        - type: object
+          properties:
+            inclusions:
+              type: array
+              items:
+                type: string
+            exclusions:
+              type: array
+              items:
+                type: string
+            cancellationPolicy:
+              type: string
+            termsAndConditions:
+              type: string
+
+    ItineraryDay:
+      type: object
+      properties:
+        day:
+          type: integer
+        activities:
+          type: array
+          items:
+            type: string
+        accommodation:
+          type: string
+        meals:
+          type: array
+          items:
+            type: string
+
+    Vehicle:
+      type: object
+      properties:
+        _id:
+          type: string
+        type:
+          type: string
+          enum: [sedan, suv, 7-seater, tempo-traveller, minibus, bus]
+        capacity:
+          type: integer
+        luggageCapacity:
+          type: string
+        ac:
+          type: boolean
+        regNo:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [active, inactive, maintenance]
+        availability:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailabilityBlock'
+        assignedDriverId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    AvailabilityBlock:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        reason:
+          type: string
+        blockedBy:
+          type: string
+
+    Driver:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        licenseNo:
+          type: string
+        vehicleIds:
+          type: array
+          items:
+            type: string
+        availability:
+          type: boolean
+        rating:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        country:
+          type: string
+        role:
+          type: string
+          enum: [user, admin, super_admin, driver]
+        savedPassengers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavedPassenger'
+        createdAt:
+          type: string
+          format: date-time
+
+    SavedPassenger:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        passport:
+          type: string
+
+    Booking:
+      type: object
+      properties:
+        _id:
+          type: string
+        userId:
+          type: string
+          nullable: true
+        guestInfo:
+          $ref: '#/components/schemas/GuestInfo'
+        packageId:
+          type: string
+        vehicleId:
+          type: string
+          nullable: true
+        pickupLocation:
+          type: string
+        dropLocation:
+          type: string
+        startDateTime:
+          type: string
+          format: date-time
+        returnDateTime:
+          type: string
+          format: date-time
+        paxCount:
+          type: integer
+        baseAmount:
+          type: number
+        taxes:
+          type: number
+        userVisibleAmount:
+          type: number
+        commissionPercent:
+          type: number
+        commissionAmount:
+          type: number
+        totalAmount:
+          type: number
+        approvalStatus:
+          type: string
+          enum: [pending, approved, rejected]
+        approvedBy:
+          type: string
+          nullable: true
+        approvedAt:
+          type: string
+          format: date-time
+          nullable: true
+        approvalNote:
+          type: string
+          nullable: true
+        paymentRequestId:
+          type: string
+          nullable: true
+        paymentRequestedAt:
+          type: string
+          format: date-time
+          nullable: true
+        paymentConfirmedAt:
+          type: string
+          format: date-time
+          nullable: true
+        paymentStatus:
+          type: string
+          enum: [pending, paid, failed]
+        status:
+          type: string
+          enum: [pending_approval, approved_pending_payment, payment_pending, confirmed, ongoing, completed, cancelled, rejected]
+        auditLogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLog'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    GuestInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        country:
+          type: string
+        passengers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavedPassenger'
+
+    PaymentRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        bookingId:
+          type: string
+        method:
+          type: string
+          enum: [upi, psp]
+        qr:
+          type: string
+        link:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [pending, paid, expired, cancelled]
+
+    AuditLog:
+      type: object
+      properties:
+        actorId:
+          type: string
+        action:
+          type: string
+        meta:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+
+    DriverAssignment:
+      type: object
+      properties:
+        _id:
+          type: string
+        bookingId:
+          type: string
+        driverId:
+          type: string
+        vehicleId:
+          type: string
+        status:
+          type: string
+          enum: [assigned, accepted, started, completed]
+        pickupLocation:
+          type: string
+        dropLocation:
+          type: string
+        startDateTime:
+          type: string
+          format: date-time
+        returnDateTime:
+          type: string
+          format: date-time
+        passengerInfo:
+          $ref: '#/components/schemas/GuestInfo'
+        createdAt:
+          type: string
+          format: date-time
+
+    Report:
+      type: object
+      properties:
+        type:
+          type: string
+        data:
+          type: object
+        generatedAt:
+          type: string
+          format: date-time
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        pages:
+          type: integer
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+
+    CreateBookingRequest:
+      type: object
+      required: [packageId, pickupLocation, dropLocation, startDateTime, returnDateTime, paxCount, guestInfo]
+      properties:
+        packageId:
+          type: string
+        pickupLocation:
+          type: string
+        dropLocation:
+          type: string
+        startDateTime:
+          type: string
+          format: date-time
+        returnDateTime:
+          type: string
+          format: date-time
+        paxCount:
+          type: integer
+        guestInfo:
+          $ref: '#/components/schemas/GuestInfo'
+
+    SignupRequest:
+      type: object
+      required: [name, email, phone, password, country]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        password:
+          type: string
+          minLength: 8
+        country:
+          type: string
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    ApproveBookingRequest:
+      type: object
+      properties:
+        vehicleId:
+          type: string
+        commissionOverride:
+          type: number
+        approvalNote:
+          type: string
+
+    RejectBookingRequest:
+      type: object
+      required: [reason]
+      properties:
+        reason:
+          type: string
+
+    BlockDatesRequest:
+      type: object
+      required: [startDate, endDate, reason]
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        reason:
+          type: string
+
+    GeneratePaymentRequest:
+      type: object
+      required: [bookingId, amount]
+      properties:
+        bookingId:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+          default: INR
+
+    PaymentWebhook:
+      type: object
+      properties:
+        paymentId:
+          type: string
+        status:
+          type: string
+          enum: [success, failed, pending]
+        amount:
+          type: number
+        currency:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        signature:
+          type: string
+
+    UpdateAssignmentStatusRequest:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [accepted, started, completed]
+        notes:
+          type: string
+
+    TripReportRequest:
+      type: object
+      properties:
+        photos:
+          type: array
+          items:
+            type: string
+            format: binary
+        notes:
+          type: string
+        odometerStart:
+          type: number
+        odometerEnd:
+          type: number
+        fuelUsed:
+          type: number

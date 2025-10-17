@@ -1,0 +1,23 @@
+/node_modules
+/backend/node_modules/
+/frontend/node_modules
+/admin-pwa/node_modules/
+/shared/node_modules/
+/shared/node_modules/
+# /backend/.env
+# /frontend/.env
+# /admin-pwa/.env
+# /shared/.env
+/backend/dist
+/frontend/dist
+/admin-pwa/dist
+/shared/dist
+/backend/.next
+/backend/.next/
+/frontend/.astro
+/frontend/package-lock.json
+/frontend/dist
+node_modules/
+node_modules
+node_modules/
+/shared/dist

@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and driver portals
+Disallow: /admin/
+Disallow: /driver/
+Disallow: /api/
+
+# Allow important pages
+Allow: /packages/
+Allow: /about
+Allow: /contact
+
+# Sitemap location
+Sitemap: https://xyztours.com/sitemap-index.xml
+
+# Crawl delay
+Crawl-delay: 1
