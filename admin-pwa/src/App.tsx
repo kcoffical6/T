@@ -46,7 +46,10 @@ function App() {
                           element={<Navigate to="/dashboard" replace />}
                         />
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/pending-approvals" element={<Navigate to="/pending" replace />} />
+                        <Route
+                          path="/pending-approvals"
+                          element={<Navigate to="/pending" replace />}
+                        />
                         <Route path="/pending" element={<PendingApprovals />} />
                         <Route path="/fleet" element={<FleetManagement />} />
                         <Route path="/reports" element={<Reports />} />

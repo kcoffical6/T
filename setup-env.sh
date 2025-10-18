@@ -8,7 +8,7 @@ echo "Setting up environment variables for XYZ Tours Backend..."
 # Create .env file in backend directory
 cat > backend/.env << 'EOF'
 # Database
-MONGODB_URI=mongodb://admin:password123@localhost:27017/xyz_tours?authSource=admin
+MONGODB_URI=mongodb://localhost:27017/xyz-tours
 
 # Redis
 REDIS_HOST=localhost

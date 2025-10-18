@@ -16,6 +16,7 @@ This guide covers the complete deployment process for the XYZ Tours and Travels 
 ## Prerequisites
 
 ### Required Software
+
 - Node.js 24 LTS
 - Docker & Docker Compose
 - MongoDB Atlas account (or local MongoDB)
@@ -25,6 +26,7 @@ This guide covers the complete deployment process for the XYZ Tours and Travels 
 - Git
 
 ### Required Accounts
+
 - MongoDB Atlas
 - Redis Cloud or AWS ElastiCache
 - AWS S3 (or S3-compatible storage)
@@ -36,12 +38,14 @@ This guide covers the complete deployment process for the XYZ Tours and Travels 
 ## Local Development Setup
 
 ### 1. Clone Repository
+
 ```bash
 git clone <repository-url>
 cd xyz-tours-travels
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 # Install root dependencies
 npm install
@@ -51,6 +55,7 @@ npm run install:all
 ```
 
 ### 3. Environment Setup
+
 ```bash
 # Copy environment files
 cp backend/.env.example backend/.env
@@ -60,6 +65,7 @@ cp frontend/.env.example frontend/.env
 ```
 
 ### 4. Start Development Environment
+
 ```bash
 # Using Docker Compose (recommended)
 npm run docker:up
@@ -69,6 +75,7 @@ npm run dev
 ```
 
 ### 5. Seed Database
+
 ```bash
 npm run seed
 ```
@@ -81,7 +88,7 @@ Create `backend/.env` with the following variables:
 
 ```env
 # Database
-MONGODB_URI=mongodb://admin:password123@localhost:27017/xyz_tours?authSource=admin
+MONGODB_URI=mongodb://admin:password123@localhost:27017/xyz-tours?authSource=admin
 REDIS_URL=redis://:redis123@localhost:6379
 
 # JWT Secrets (generate strong secrets for production)
@@ -373,6 +380,7 @@ kubectl autoscale deployment xyz-tours-backend --cpu-percent=70 --min=3 --max=10
 ### Common Issues
 
 #### 1. Database Connection Issues
+
 ```bash
 # Check MongoDB connectivity
 kubectl exec -n xyz-tours deployment/xyz-tours-backend -- npm run test:db
@@ -382,11 +390,13 @@ kubectl exec -n xyz-tours deployment/xyz-tours-backend -- redis-cli ping
 ```
 
 #### 2. Payment Issues
+
 - Verify UPI merchant ID and PSP API keys
 - Check webhook endpoint accessibility
 - Verify payment gateway configuration
 
 #### 3. Performance Issues
+
 ```bash
 # Check resource usage
 kubectl top pods -n xyz-tours
@@ -399,6 +409,7 @@ kubectl scale deployment xyz-tours-backend --replicas=5 -n xyz-tours
 ```
 
 #### 4. SSL Certificate Issues
+
 ```bash
 # Check certificate status
 kubectl get certificates -n xyz-tours
@@ -439,22 +450,26 @@ kubectl rollout undo deployment/xyz-tours-backend --to-revision=2 -n xyz-tours
 ## Security Considerations
 
 ### 1. Secrets Management
+
 - Use Kubernetes secrets for sensitive data
 - Rotate secrets regularly
 - Use external secret management systems (HashiCorp Vault, AWS Secrets Manager)
 
 ### 2. Network Security
+
 - Configure network policies
 - Use service mesh (Istio) for advanced traffic management
 - Implement proper firewall rules
 
 ### 3. Application Security
+
 - Enable rate limiting
 - Implement proper CORS policies
 - Use HTTPS everywhere
 - Regular security audits
 
 ### 4. Data Protection
+
 - Encrypt data at rest and in transit
 - Implement proper backup strategies
 - Follow GDPR compliance guidelines

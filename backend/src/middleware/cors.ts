@@ -6,7 +6,10 @@ console.log("process.env.CORS_ORIGIN", process.env.CORS_ORIGIN);
 export function corsMiddleware(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<void>((resolve) => {
     // Get allowed origins from env and trim whitespace
-    const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:4321")
+    const allowedOrigins = (
+      process.env.CORS_ORIGIN ||
+      "http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:3003"
+    )
       .split(",")
       .map((origin) => origin.trim());
     const origin = req.headers.origin || "";
