@@ -21,12 +21,14 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@/src/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/types/*": ["./src/types/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/config/*": ["./src/config/*"],
-      "@/middleware/*": ["./src/middleware/*"]
+      "@/middleware/*": ["./src/middleware/*"],
+      "@/controllers/*": ["./src/controllers/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

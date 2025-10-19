@@ -1,12 +1,8 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./contexts/AuthContext";
+import { MetaMaskProvider } from "./contexts/MetaMaskContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Layout } from "./components/Layout";
 import { Dashboard } from "./pages/Dashboard";
@@ -15,7 +11,12 @@ import { FleetManagement } from "./pages/FleetManagement";
 import { Reports } from "./pages/Reports";
 import { Settings } from "./pages/Settings";
 import { Login } from "./pages/Login";
+import { Packages } from "./pages/Packages";
+import { PackageDetail } from "./pages/PackageDetail";
+import { PackageForm } from "./components/PackageForm";
 import "./index.css";
+import VehiclesList from "./pages/vehicles/VehiclesList";
+import VehicleFormPage from "./pages/vehicles/VehicleFormPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,43 +32,50 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router>
+        <MetaMaskProvider>
           <div className="min-h-screen bg-gray-50">
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route
-                path="/*"
+                path="/"
                 element={
                   <ProtectedRoute>
-                    <Layout>
-                      <Routes>
-                        <Route
-                          path="/"
-                          element={<Navigate to="/dashboard" replace />}
-                        />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route
-                          path="/pending-approvals"
-                          element={<Navigate to="/pending" replace />}
-                        />
-                        <Route path="/pending" element={<PendingApprovals />} />
-                        <Route path="/fleet" element={<FleetManagement />} />
-                        <Route path="/reports" element={<Reports />} />
-                        <Route path="/settings" element={<Settings />} />
-                      </Routes>
-                    </Layout>
+                    <Navigate to="/dashboard" replace />
                   </ProtectedRoute>
                 }
               />
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Outlet />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Navigate to="/dashboard" replace />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route
+                  path="pending-approvals"
+                  element={<PendingApprovals />}
+                />
+                <Route path="fleet" element={<FleetManagement />} />
+                <Route path="vehicles" element={<VehiclesList />} />
+                <Route path="vehicles/new" element={<VehicleFormPage />} />
+                <Route path="vehicles/:id" element={<VehicleFormPage />} />
+                <Route path="vehicles/:id/edit" element={<VehicleFormPage />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="packages" element={<Packages />} />
+                <Route path="packages/new" element={<PackageForm />} />
+                <Route path="packages/:id" element={<PackageDetail />} />
+                <Route path="packages/:id/edit" element={<PackageForm />} />
+              </Route>
             </Routes>
+
             <Toaster
-              position="top-center"
+              position="top-right"
               toastOptions={{
-                duration: 4000,
-                style: {
-                  background: "#363636",
-                  color: "#fff",
-                },
                 success: {
                   duration: 3000,
                   iconTheme: {
@@ -85,7 +93,7 @@ function App() {
               }}
             />
           </div>
-        </Router>
+        </MetaMaskProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

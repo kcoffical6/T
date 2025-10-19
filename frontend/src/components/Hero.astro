@@ -11,7 +11,7 @@
   <div class="relative z-10 container mx-auto px-4 text-center text-white">
     <div class="max-w-4xl mx-auto">
       <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-        Discover South India
+        Discover South India with sdjn
       </h1>
       <p class="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto">
         From misty hill stations to serene backwaters, explore the diverse beauty of South India with our curated tours designed for international travelers.
@@ -77,7 +77,7 @@
   const searchForm = document.querySelector('form');
   searchForm?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target as HTMLFormElement);
     const pickup = formData.get('pickup');
     const date = formData.get('date');
     const pax = formData.get('pax');
@@ -85,9 +85,9 @@
     if (pickup && date && pax) {
       // Redirect to packages page with filters
       const url = new URL('/packages', window.location.origin);
-      url.searchParams.set('pickup', pickup);
-      url.searchParams.set('date', date);
-      url.searchParams.set('pax', pax);
+      url.searchParams.set('pickup', pickup.toString());
+      url.searchParams.set('date', date.toString());
+      url.searchParams.set('pax', pax.toString());
       window.location.href = url.toString();
     } else {
       // Redirect to packages page without filters

@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { connectDB } from '@/lib/database';
-import { corsMiddleware } from '@/middleware/cors';
-import { withRole, AuthenticatedRequest } from '@/middleware/auth';
-import { Booking } from '@/models/Booking';
+import { NextApiRequest, NextApiResponse } from "next";
+import { connectDB } from "@/lib/database";
+import { corsMiddleware } from "@/middleware/cors";
+import { withRole } from "@/middleware/auth";
+import { Booking } from "@/models/Booking";
 
-async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
 
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     try {
       await connectDB();
 
@@ -23,12 +23,12 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
       const [bookings, total] = await Promise.all([
         Booking.find(query)
-          .populate('userId', 'name email phone')
-          .populate('packageId', 'title slug basePricePerPax')
+          .populate("userId", "name email phone")
+          .populate("packageId", "title slug basePricePerPax")
           .sort({ createdAt: -1 })
           .skip(skip)
           .limit(limit),
-        Booking.countDocuments(query)
+        Booking.countDocuments(query),
       ]);
 
       res.status(200).json({
@@ -37,17 +37,34 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
           page,
           limit,
           total,
-          pages: Math.ceil(total / limit)
-        }
+          pages: Math.ceil(total / limit),
+        },
       });
     } catch (error) {
-      console.error('Get admin bookings error:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Get admin bookings error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   } else {
-    res.setHeader('Allow', ['GET']);
+    res.setHeader("Allow", ["GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
 
-export default withRole(['admin', 'super_admin'])(handler);
+// Wrap the handler with the role-based middleware
+export default async function protectedHandler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  return new Promise<void>((resolve) => {
+    // Convert Next.js API route to Express-style middleware
+    const middleware = withRole(["admin", "super_admin"]);
+
+    // @ts-ignore - Type mismatch between Express and Next.js types
+    middleware(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return res.status(500).json({ error: result.message });
+      }
+      return handler(req, res);
+    });
+  });
+}

@@ -1,5 +1,23 @@
 /** @type {import('next').NextConfig} */
+const path = require("path");
+
 const nextConfig = {
+  webpack: (config, { isServer }) => {
+    // Add path aliases to webpack
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@": path.resolve(__dirname, "src"),
+      "@/src": path.resolve(__dirname, "src"),
+      "@/components": path.resolve(__dirname, "src/components"),
+      "@/lib": path.resolve(__dirname, "src/lib"),
+      "@/types": path.resolve(__dirname, "src/types"),
+      "@/utils": path.resolve(__dirname, "src/utils"),
+      "@/config": path.resolve(__dirname, "src/config"),
+      "@/middleware": path.resolve(__dirname, "src/middleware"),
+      "@/controllers": path.resolve(__dirname, "src/controllers"),
+    };
+    return config;
+  },
   output: "standalone",
   images: {
     domains: ["localhost"],

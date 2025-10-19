@@ -106,10 +106,10 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: development
-      PUBLIC_API_URL: http://localhost:3000
+      PUBLIC_API_URL: http://backend:3000 || http://localhost:3000
       PUBLIC_SITE_URL: http://localhost:3001
     ports:
-      - "3003:3001"
+      - "3004:3001"
     depends_on:
       - backend
     volumes:

@@ -1,49 +1,78 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import {
-  verifyAccessToken,
-  extractTokenFromRequest,
-  JWTPayload,
-} from "@/lib/jwt";
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-export interface AuthenticatedRequest extends NextApiRequest {
-  user?: JWTPayload;
-}
-
-export function withAuth(
-  handler: (req: AuthenticatedRequest, res: NextApiResponse) => Promise<void>
-) {
-  return async (req: AuthenticatedRequest, res: NextApiResponse) => {
-    try {
-      const token = extractTokenFromRequest(req);
-
-      if (!token) {
-        return res.status(401).json({ error: "No token provided" });
-      }
-
-      const payload = verifyAccessToken(token);
-      req.user = payload;
-
-      return handler(req, res);
-    } catch (error) {
-      return res.status(401).json({ error: "Invalid token" });
+// Extend the Express Request type to include the user property
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any; // You can replace 'any' with a more specific user type
     }
-  };
+  }
 }
 
-export function withRole(roles: string[]) {
-  return function (
-    handler: (req: AuthenticatedRequest, res: NextApiResponse) => Promise<void>
-  ) {
-    return withAuth(async (req: AuthenticatedRequest, res: NextApiResponse) => {
-      if (!req.user) {
-        return res.status(401).json({ error: "No user found" });
-      }
+// Simple authentication middleware
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Get token from header
+    const token = req.header("Authorization")?.replace("Bearer ", "");
 
-      if (!roles.includes(req.user.role)) {
-        return res.status(403).json({ error: "Insufficient permissions" });
-      }
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "No token, authorization denied",
+      });
+    }
 
-      return handler(req, res);
+    // Verify token
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "your_jwt_secret"
+    );
+    req.user = decoded;
+    next();
+  } catch (error) {
+    console.error("Auth error:", error);
+    return res.status(401).json({
+      success: false,
+      message: "Token is not valid",
+    });
+  }
+};
+
+// Role-based access control middleware for Express
+export const withRole = (roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    // First verify the user is authenticated
+    authMiddleware(req, res, () => {
+      try {
+        if (!req.user) {
+          return res.status(401).json({
+            success: false,
+            message: "No user found",
+          });
+        }
+
+        // Check if user has required role
+        if (!roles.includes(req.user.role)) {
+          return res.status(403).json({
+            success: false,
+            message: "Insufficient permissions",
+          });
+        }
+
+        // User has required role, proceed to the next middleware/route handler
+        next();
+      } catch (error) {
+        console.error("Role check error:", error);
+        return res.status(500).json({
+          success: false,
+          message: "Internal server error during authorization",
+        });
+      }
     });
   };
-}
+};
