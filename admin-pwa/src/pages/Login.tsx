@@ -1,33 +1,39 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { useAppDispatch } from "@/store/store";
+import { login } from "@/features/auth/authSlice";
+import { toast } from "react-hot-toast";
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
 
+    setIsLoading(true);
     try {
-      const { success, role } = await login(email, password);
-      if (success === true && role === "superadmin") {
-        navigate("/dashboard");
-      } else if (success === true && role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/dashboard");
+      const resultAction = await dispatch(login({ email, password }));
+      if (login.fulfilled.match(resultAction)) {
+        // Login successful, redirect to dashboard
+        navigate("/");
+      } else if (login.rejected.match(resultAction)) {
+        // Login failed, show error message
+        const error = (resultAction.payload as string) || "Login failed";
+        toast.error(error);
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast.error("Invalid credentials");
+      toast.error("An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }

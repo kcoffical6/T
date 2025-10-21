@@ -3,6 +3,8 @@ import { connectDB } from "@/lib/database";
 import { corsMiddleware } from "@/middleware/cors";
 import { withRole } from "@/middleware/auth";
 import { Booking } from "@/models/Booking";
+import { adaptExpressRoute } from "@/lib/expressAdapter";
+import { adminCreateBooking } from "@/controllers/bookingController";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   await corsMiddleware(req, res);
@@ -44,8 +46,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       console.error("Get admin bookings error:", error);
       res.status(500).json({ error: "Internal server error" });
     }
+  } else if (req.method === "POST") {
+    try {
+      await connectDB();
+      return adaptExpressRoute(adminCreateBooking)(req, res);
+    } catch (error) {
+      console.error("Create admin booking error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   } else {
-    res.setHeader("Allow", ["GET"]);
+    res.setHeader("Allow", ["GET", "POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

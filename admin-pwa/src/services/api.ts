@@ -1,27 +1,49 @@
-import axios from "axios";
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-const api = axios.create({
-  baseURL: `${API_BASE_URL}/api`,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// Create axios instance with default config
+const createAxiosInstance = (): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: `${API_BASE_URL}/api`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-// Request interceptor to add auth token
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("admin_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  // Request interceptor to add auth token
+  instance.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+      const token = localStorage.getItem("admin_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+  );
+
+  return instance;
+};
+
+// Create the axios instance
+let api = createAxiosInstance();
+
+// Function to update axios instance with new token
+export const setAuthToken = (token: string) => {
+  localStorage.setItem("admin_token", token);
+  // Create a new axios instance with the updated token
+  api = createAxiosInstance();
+};
+
+// Function to clear the auth token
+export const clearAuthToken = () => {
+  localStorage.removeItem("admin_token");
+  // Create a new axios instance without the token
+  api = createAxiosInstance();
+};
 
 // Response interceptor to handle auth errors
 api.interceptors.response.use(
@@ -40,6 +62,10 @@ export const authApi = {
     api.post("/auth/login", { email, password }).then((res) => res.data),
 
   getProfile: () => api.get("/auth/profile").then((res) => res.data),
+
+  setAuthToken: (token: string) => setAuthToken(token),
+
+  clearAuthToken: () => clearAuthToken(),
 };
 
 export const bookingsApi = {

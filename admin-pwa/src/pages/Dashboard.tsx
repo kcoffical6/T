@@ -6,8 +6,16 @@ import {
   FiUsers,
   FiTruck,
   FiClock,
+  FiPlus,
+  FiDollarSign,
+  FiCheckCircle,
+  FiAlertCircle,
 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { reportsApi } from "../services/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/reducer";
+import { log } from "console";
 
 export const Dashboard: React.FC = () => {
   const { data: revenueData } = useQuery("revenueReport", () =>
@@ -21,39 +29,78 @@ export const Dashboard: React.FC = () => {
   const { data: occupancyData } = useQuery("occupancyReport", () =>
     reportsApi.getOccupancyReport({ period: "30d" })
   );
+  const state = useSelector((state: RootState) => state);
+  console.log("state", state);
+
+  // Mock data for recent vehicles (replace with actual API call)
+  const recentVehicles = [
+    {
+      id: 1,
+      make: "Toyota",
+      model: "Innova Crysta",
+      type: "SUV",
+      status: "available",
+      added: "2 hours ago",
+    },
+    {
+      id: 2,
+      make: "Maruti",
+      model: "Ertiga",
+      type: "MUV",
+      status: "in-service",
+      added: "5 hours ago",
+    },
+    {
+      id: 3,
+      make: "Honda",
+      model: "City",
+      type: "Sedan",
+      status: "available",
+      added: "1 day ago",
+    },
+  ];
+
+  // Vehicle stats
+  const vehicleStats = {
+    totalVehicles: 24,
+    available: 18,
+    inService: 4,
+    booked: 2,
+    utilization: 75,
+  };
 
   const stats = [
     {
       title: "Total Revenue",
       value: `₹${revenueData?.totalRevenue?.toLocaleString() || "0"}`,
-      change: `+${revenueData?.growth || 0}%`,
+      change: `+${revenueData?.growth || 0}% from last month`,
       icon: FiTrendingUp,
       color: "text-green-600",
-      bgColor: "bg-green-100",
+      bgColor: "bg-green-50",
     },
     {
-      title: "Commission Earned",
-      value: `₹${commissionData?.totalCommission?.toLocaleString() || "0"}`,
-      change: `+${commissionData?.growth || 0}%`,
-      icon: FiBarChart2,
+      title: "Fleet Size",
+      value: vehicleStats.totalVehicles,
+      change: `${vehicleStats.available} available, ${vehicleStats.inService} in service`,
+      icon: FiTruck,
       color: "text-blue-600",
-      bgColor: "bg-blue-100",
-    },
-    {
-      title: "Active Bookings",
-      value: occupancyData?.activeBookings || "0",
-      change: `${occupancyData?.occupancyRate || 0}% occupancy`,
-      icon: FiUsers,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100",
+      bgColor: "bg-blue-50",
     },
     {
       title: "Fleet Utilization",
-      value: `${occupancyData?.fleetUtilization || 0}%`,
-      change: `${occupancyData?.availableVehicles || 0} available`,
-      icon: FiTruck,
-      color: "text-orange-600",
-      bgColor: "bg-orange-100",
+      value: `${vehicleStats.utilization}%`,
+      change: `${vehicleStats.booked} vehicles currently booked`,
+      icon: FiBarChart2,
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+    },
+    {
+      title: "Average Daily Rate",
+      value: `₹4,200`,
+      change: `+5.2% from last month`,
+      icon: FiDollarSign,
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
     },
   ];
 
@@ -92,76 +139,181 @@ export const Dashboard: React.FC = () => {
 
       {/* Quick Actions */}
       <div className="card">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Quick Actions
-        </h2>
-        <div className="grid grid-cols-2 gap-3">
-          <button className="p-4 bg-primary-50 rounded-lg text-left hover:bg-primary-100 transition-colors">
-            <FiClock className="w-6 h-6 text-primary-600 mb-2" />
-            <div className="font-medium text-primary-900">
-              Pending Approvals
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
+          <Link
+            to="/vehicles/new"
+            className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          >
+            <FiPlus className="mr-1.5 h-4 w-4" />
+            Add Vehicle
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Link
+            to="/vehicles"
+            className="p-4 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center">
+              <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+                <FiTruck className="w-5 h-5" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-medium text-gray-900">Manage Fleet</h3>
+                <p className="text-sm text-gray-500">
+                  View and manage all vehicles
+                </p>
+              </div>
             </div>
-            <div className="text-sm text-primary-700">Review new bookings</div>
-          </button>
+          </Link>
 
-          <button className="p-4 bg-green-50 rounded-lg text-left hover:bg-green-100 transition-colors">
-            <FiTruck className="w-6 h-6 text-green-600 mb-2" />
-            <div className="font-medium text-green-900">Fleet Status</div>
-            <div className="text-sm text-green-700">Manage vehicles</div>
-          </button>
+          <Link
+            to="/bookings"
+            className="p-4 bg-white border border-gray-200 rounded-lg hover:border-purple-300 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center">
+              <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
+                <FiUsers className="w-5 h-5" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-medium text-gray-900">Bookings</h3>
+                <p className="text-sm text-gray-500">Manage reservations</p>
+              </div>
+            </div>
+          </Link>
 
-          <button className="p-4 bg-blue-50 rounded-lg text-left hover:bg-blue-100 transition-colors">
-            <FiBarChart2 className="w-6 h-6 text-blue-600 mb-2" />
-            <div className="font-medium text-blue-900">Reports</div>
-            <div className="text-sm text-blue-700">View analytics</div>
-          </button>
+          <Link
+            to="/reports"
+            className="p-4 bg-white border border-gray-200 rounded-lg hover:border-green-300 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center">
+              <div className="p-2 rounded-lg bg-green-50 text-green-600">
+                <FiBarChart2 className="w-5 h-5" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-medium text-gray-900">Reports</h3>
+                <p className="text-sm text-gray-500">
+                  View analytics & insights
+                </p>
+              </div>
+            </div>
+          </Link>
 
-          <button className="p-4 bg-purple-50 rounded-lg text-left hover:bg-purple-100 transition-colors">
-            <FiUsers className="w-6 h-6 text-purple-600 mb-2" />
-            <div className="font-medium text-purple-900">All Bookings</div>
-            <div className="text-sm text-purple-700">Manage reservations</div>
-          </button>
+          <Link
+            to="/drivers"
+            className="p-4 bg-white border border-gray-200 rounded-lg hover:border-amber-300 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center">
+              <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
+                <FiUsers className="w-5 h-5" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-medium text-gray-900">Drivers</h3>
+                <p className="text-sm text-gray-500">
+                  Manage drivers & assignments
+                </p>
+              </div>
+            </div>
+          </Link>
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div className="card">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Recent Activity
-        </h2>
-        <div className="space-y-3">
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <div className="flex-1">
-              <div className="text-sm font-medium text-gray-900">
-                Booking Approved
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Vehicles */}
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Vehicles
+            </h2>
+            <Link
+              to="/vehicles"
+              className="text-sm font-medium text-primary-600 hover:text-primary-700"
+            >
+              View All
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {recentVehicles.map((vehicle) => (
+              <div
+                key={vehicle.id}
+                className="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-lg hover:shadow-sm transition-shadow"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+                    <FiTruck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="font-medium text-gray-900">
+                      {vehicle.make} {vehicle.model}
+                    </div>
+                    <div className="text-sm text-gray-500">{vehicle.type}</div>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  {vehicle.status === "available" ? (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <FiCheckCircle className="mr-1 h-3 w-3" />
+                      Available
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      <FiAlertCircle className="mr-1 h-3 w-3" />
+                      In Service
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="text-xs text-gray-600">
-                Kerala Backwaters Tour • 2 min ago
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Activity
+            </h2>
+            <button className="text-sm font-medium text-gray-500 hover:text-gray-700">
+              View All
+            </button>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-3 p-3 bg-white border border-gray-100 rounded-lg">
+              <div className="w-2 h-2 mt-2 bg-green-500 rounded-full flex-shrink-0"></div>
+              <div className="flex-1">
+                <div className="text-sm font-medium text-gray-900">
+                  New Vehicle Added
+                </div>
+                <p className="text-sm text-gray-600">
+                  Toyota Innova Crysta has been added to the fleet
+                </p>
+                <div className="mt-1 text-xs text-gray-500">2 hours ago</div>
               </div>
             </div>
-          </div>
 
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-            <div className="flex-1">
-              <div className="text-sm font-medium text-gray-900">
-                Vehicle Status Updated
-              </div>
-              <div className="text-xs text-gray-600">
-                SUV-001 marked as available • 5 min ago
+            <div className="flex items-start space-x-3 p-3 bg-white border border-gray-100 rounded-lg">
+              <div className="w-2 h-2 mt-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+              <div className="flex-1">
+                <div className="text-sm font-medium text-gray-900">
+                  Vehicle Status Updated
+                </div>
+                <p className="text-sm text-gray-600">
+                  SUV-001 has been marked as available after maintenance
+                </p>
+                <div className="mt-1 text-xs text-gray-500">5 hours ago</div>
               </div>
             </div>
-          </div>
 
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-            <div className="flex-1">
-              <div className="text-sm font-medium text-gray-900">
-                New Booking Request
-              </div>
-              <div className="text-xs text-gray-600">
-                Tamil Nadu Temple Circuit • 10 min ago
+            <div className="flex items-start space-x-3 p-3 bg-white border border-gray-100 rounded-lg">
+              <div className="w-2 h-2 mt-2 bg-purple-500 rounded-full flex-shrink-0"></div>
+              <div className="flex-1">
+                <div className="text-sm font-medium text-gray-900">
+                  New Driver Assigned
+                </div>
+                <p className="text-sm text-gray-600">
+                  Rajesh Kumar assigned to Toyota Innova Crysta (KA-01-AB-1234)
+                </p>
+                <div className="mt-1 text-xs text-gray-500">1 day ago</div>
               </div>
             </div>
           </div>

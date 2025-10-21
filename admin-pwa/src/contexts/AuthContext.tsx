@@ -50,14 +50,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
     if (token) {
+      // Set auth header for all requests
+      authApi.setAuthToken(token);
       // Verify token and get user info
       authApi
         .getProfile()
         .then((userData) => {
           setUser(userData);
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error("Failed to fetch user profile:", error);
           localStorage.removeItem("admin_token");
+          authApi.clearAuthToken();
         })
         .finally(() => {
           setIsLoading(false);
@@ -88,19 +92,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   ): Promise<{ success: boolean; role?: string }> => {
     try {
       const data = await loginMutation.mutateAsync({ email, password });
+      // Set auth header after successful login
+      authApi.setAuthToken(data.access_token);
       return { success: true, role: data.user.role };
     } catch (error) {
+      console.error("Login error:", error);
       return { success: false };
     }
   };
 
   const logout = () => {
     localStorage.removeItem("admin_token");
+    authApi.clearAuthToken();
     setUser(null);
     toast.success("Logged out successfully");
   };
 
-  const isAuthenticated = !!user;
+  // Check both user state and token in localStorage for authentication state
+  const isAuthenticated = !!user || !!localStorage.getItem("admin_token");
   const hasRole = (role: string) => user?.role === role;
 
   const value: AuthContextType = {

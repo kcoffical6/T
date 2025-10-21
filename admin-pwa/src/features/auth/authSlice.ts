@@ -1,5 +1,6 @@
-// admin-pwa/src/features/auth/authSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { authApi } from "@/services/api";
+import { clearPersistedState } from "@/store/store";
 
 interface User {
   _id: string;
@@ -17,82 +18,115 @@ export interface AuthState {
   token: string | null;
 }
 
-// Load initial state from localStorage if available
-const loadInitialState = (): AuthState => {
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
-  
-  return {
-    user: user ? JSON.parse(user) : null,
-    token: token,
-    isAuthenticated: !!token,
-    loading: false,
-    error: null,
-  };
+const initialState: AuthState = {
+  user: null,
+  isAuthenticated: false,
+  loading: false,
+  error: null,
+  token: null,
 };
+
+// Async thunk for login
+export const login = createAsyncThunk(
+  "auth/login",
+  async (
+    credentials: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await authApi.login(
+        credentials.email,
+        credentials.password
+      );
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Login failed");
+    }
+  }
+);
+
+// Async thunk for checking authentication
+export const checkAuth = createAsyncThunk(
+  "auth/checkAuth",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await authApi.getProfile();
+      return response;
+    } catch (error: any) {
+      return rejectWithValue("Session expired. Please login again.");
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: loadInitialState(),
+  initialState,
   reducers: {
-    loginStart: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
-    loginSuccess: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
-      state.loading = false;
-      state.error = null;
-      
-      // Persist to localStorage
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      localStorage.setItem("token", action.payload.token);
-    },
-    loginFailure: (state, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.error = action.payload;
-      state.isAuthenticated = false;
-      state.user = null;
-      state.token = null;
-      
-      // Clear localStorage on failure
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-    },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
-      
-      // Clear localStorage
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      // Clear persisted state
+      clearPersistedState();
     },
-    rehydrateAuth: (state) => {
-      const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-      
-      if (token && user) {
-        state.token = token;
-        state.user = JSON.parse(user);
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    // Login cases
+    builder.addCase(login.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(login.fulfilled, (state, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    });
+    builder.addCase(login.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+    });
+
+    // Check auth cases
+    builder.addCase(checkAuth.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      checkAuth.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.loading = false;
         state.isAuthenticated = true;
-      } else {
-        state.token = null;
-        state.user = null;
-        state.isAuthenticated = false;
+        state.user = action.payload;
+        state.error = null;
       }
-    }
+    );
+    builder.addCase(checkAuth.rejected, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+      state.error = action.payload as string;
+    });
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, rehydrateAuth } = authSlice.actions;
-export default authSlice.reducer;
+export const { logout, clearError } = authSlice.actions;
 
-// Selectors
-export const selectCurrentUser = (state: { auth: AuthState }) => state.auth.user;
-export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.isAuthenticated;
+export const selectCurrentUser = (state: { auth: AuthState }) =>
+  state.auth.user;
+export const selectIsAuthenticated = (state: { auth: AuthState }) =>
+  state.auth.isAuthenticated;
 export const selectAuthToken = (state: { auth: AuthState }) => state.auth.token;
+export const selectAuthLoading = (state: { auth: AuthState }) =>
+  state.auth.loading;
+export const selectAuthError = (state: { auth: AuthState }) => state.auth.error;
+
+export default authSlice.reducer;

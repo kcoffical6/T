@@ -1,0 +1,33 @@
+export const vehicleTypes = [
+  { value: 'sedan', label: 'Sedan' },
+  { value: 'suv', label: 'SUV' },
+  { value: 'mpv', label: 'MPV' },
+  { value: 'luxury', label: 'Luxury' },
+  { value: 'bus', label: 'Bus' },
+  { value: 'van', label: 'Van' },
+  { value: 'traveller', label: 'Traveller' },
+  { value: 'coach', label: 'Coach' },
+];
+
+export const vehicleFeatures = [
+  'AC',
+  'WiFi',
+  'TV',
+  'USB Charging',
+  'Sunroof',
+  'Leather Seats',
+  'Heated Seats',
+  'GPS Navigation',
+  'Bluetooth',
+  'Rear Camera',
+  'Parking Sensors',
+  'Child Seat',
+  'First Aid Kit',
+  'Fire Extinguisher',
+  'Water Bottles',
+  'Newspaper',
+  'Music System',
+  'Sun Shades',
+  'Reading Lights',
+  'Cup Holders',
+];
