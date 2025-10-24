@@ -132,7 +132,7 @@ export const columns: ColumnDef<Package>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link
-                href={`/packages/edit/${pkg._id}`}
+                href={`/packages/${pkg._id}/edit`}
                 className="cursor-pointer"
               >
                 Edit

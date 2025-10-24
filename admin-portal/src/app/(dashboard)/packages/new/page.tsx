@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store/store";
 import { createPackage } from "@/features/packages/packagesSlice";
+import { packagesService } from "@/features/packages/packagesService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +21,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { log } from "console";
+import { useState } from "react";
 
 const schema = z.object({
   title: z.string().min(2, "Title is required"),
@@ -34,6 +36,7 @@ const schema = z.object({
 export default function NewPackagePage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<z.input<typeof schema>, any, z.output<typeof schema>>({
     resolver: zodResolver(schema),
@@ -51,7 +54,13 @@ export default function NewPackagePage() {
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
       console.log("values", values);
-      const result = await dispatch(createPackage(values) as any);
+      let images: string[] = [];
+      if (files.length > 0) {
+        images = await packagesService.upload(files);
+      }
+
+      const payload = { ...values, images } as any;
+      const result = await dispatch(createPackage(payload) as any);
       if (createPackage.fulfilled.match(result)) {
         toast({
           title: "Created",
@@ -185,6 +194,19 @@ export default function NewPackagePage() {
                       <FormMessage />
                     </FormItem>
                   )}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <FormLabel>Images</FormLabel>
+                <Input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,application/pdf"
+                  multiple
+                  onChange={(e) => {
+                    const list = e.target.files ? Array.from(e.target.files) : [];
+                    setFiles(list);
+                  }}
                 />
               </div>
 
