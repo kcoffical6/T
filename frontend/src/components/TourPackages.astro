@@ -1,0 +1,79 @@
+---
+// TourPackages component
+const tourPackage = {
+  name: 'Trip to Greece',
+  duration: '14-29 June',
+  by: 'Robbin joseph',
+  image: 'https://images.unsplash.com/photo-1512413317036-7212d2a45f5a?w=600',
+  icons: [
+    'https://cdn-icons-png.flaticon.com/512/1077/1077095.png',
+    'https://cdn-icons-png.flaticon.com/512/3232/3232462.png',
+    'https://cdn-icons-png.flaticon.com/512/684/684809.png',
+  ],
+  people: 24,
+  likes: '4.8k',
+  price: '599',
+};
+---
+<section class="py-16 md:py-24 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center gap-12">
+      <!-- Left Content -->
+      <div class="md:w-1/2 text-center md:text-left">
+        <p class="text-lg text-gray-600 font-semibold">Easy and Fast</p>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-secondary-600 mb-8">Book your next trip in 3 easy steps</h2>
+        <ul class="space-y-6">
+          <li class="flex items-center space-x-4">
+            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-yellow-400 flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-800">Choose Destination</h3>
+              <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna, tortor tempus.</p>
+            </div>
+          </li>
+          <li class="flex items-center space-x-4">
+            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-primary-500 flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8"></path></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-800">Make Payment</h3>
+              <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna, tortor tempus.</p>
+            </div>
+          </li>
+          <li class="flex items-center space-x-4">
+            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-secondary-500 flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-800">Reach Airport on Selected Date</h3>
+              <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna, tortor tempus.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right Card -->
+      <div class="md:w-1/2">
+        <div class="bg-white rounded-2xl shadow-lg p-6 relative">
+          <img src={tourPackage.image} alt={tourPackage.name} class="rounded-2xl w-full h-64 object-cover mb-6">
+          <h3 class="text-xl font-bold text-gray-800">{tourPackage.name}</h3>
+          <p class="text-gray-600 mb-4">{tourPackage.duration} | by {tourPackage.by}</p>
+          <div class="flex items-center space-x-2 mb-4">
+            {tourPackage.icons.map(icon => <img src={icon} alt="icon" class="w-8 h-8"/>)}
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.124-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.124-1.283.356-1.857m0 0a3.004 3.004 0 015.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              <span class="text-gray-600">{tourPackage.people} people going</span>
+            </div>
+            <button class="text-primary-500 hover:text-primary-600">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            </button>
+          </div>
+          <div class="absolute -bottom-8 -right-8 w-48 h-48 bg-secondary-200/50 rounded-full -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

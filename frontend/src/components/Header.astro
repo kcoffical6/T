@@ -1,61 +1,71 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
 // Header component
 ---
 
-<header class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
   <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-16">
+    <div class="flex items-center justify-between h-24">
       <!-- Logo -->
       <div class="flex items-center">
-        <a href="/" class="flex items-center space-x-3">
-          <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-            <span class="text-white font-bold text-xl">XYZ</span>
-          </div>
-          <div class="hidden sm:block">
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">XYZ Tours</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-300">South India Travel</p>
-          </div>
+        <a href="/" class="flex items-center space-x-2 text-2xl font-bold">
+          <span>Travel</span>
+          <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+          </svg>
         </a>
       </div>
 
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center space-x-8">
-        <a href="/" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-        <a href="/packages" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Packages</a>
-        <a href="/about" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
-        <a href="/contact" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+        <a href="/" class="hover:text-primary-500 font-medium transition-colors">Home</a>
+        <a href="/about" class="hover:text-primary-500 font-medium transition-colors">About</a>
+        <a href="/services" class="hover:text-primary-500 font-medium transition-colors">Services</a>
+        <a href="/packages" class="hover:text-primary-500 font-medium transition-colors">Upcoming Packages</a>
       </nav>
 
       <!-- CTA Buttons -->
-      <div class="flex items-center space-x-4">
-        <a href="/contact" class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-          Get Quote
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="/login" class="hover:text-primary-500 font-medium">Login</a>
+        <a href="/signup" class="px-6 py-2 border border-secondary-500 text-secondary-500 font-bold rounded-md hover:bg-secondary-500 hover:text-white transition-colors">
+          Sign up
         </a>
-        <a href="/packages" class="inline-flex items-center px-6 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors">
-          Book Now
-        </a>
-        
-        <!-- Theme Toggle -->
-        <ThemeToggle />
-        
-        <!-- Mobile menu button -->
-        <button class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" id="mobile-menu-button">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
+        <div class="relative">
+          <button class="flex items-center hover:text-primary-500 font-medium">
+            <span>EN</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- Mobile Navigation -->
-    <div class="md:hidden hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-        <a href="/" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-        <a href="/packages" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Packages</a>
-        <a href="/about" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
-        <a href="/contact" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
-        <a href="/contact" class="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Get Quote</a>
+      <!-- Mobile menu button -->
+      <button class="md:hidden p-2" id="mobile-menu-button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="md:hidden hidden bg-white text-gray-800" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="/" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Home</a>
+      <a href="/about" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">About</a>
+      <a href="/services" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Services</a>
+      <a href="/packages" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Upcoming Packages</a>
+    </div>
+    <div class="pt-4 pb-3 border-t border-gray-200">
+      <div class="flex items-center justify-center px-5 space-x-4">
+          <a href="/login" class="text-base font-medium hover:text-primary-500">Login</a>
+          <a href="/signup" class="px-4 py-2 border border-secondary-500 text-secondary-500 font-medium rounded-md hover:bg-secondary-500 hover:text-white transition-colors">
+            Sign up
+          </a>
+          <div class="relative">
+            <button class="flex items-center hover:text-primary-500 font-medium">
+              <span>EN</span>
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+          </div>
       </div>
     </div>
   </div>
@@ -65,8 +75,32 @@ import ThemeToggle from './ThemeToggle.astro';
   // Mobile menu toggle
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
+  const header = document.getElementById('header');
   
   mobileMenuButton?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
+    header?.classList.toggle('bg-white');
+    header?.classList.toggle('text-gray-800');
+    header?.classList.toggle('text-white');
+  });
+
+  // Header scroll effect
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('bg-white', 'shadow-lg', 'text-gray-800');
+      header?.classList.remove('text-white');
+    } else {
+      header?.classList.remove('bg-white', 'shadow-lg', 'text-gray-800');
+      header?.classList.add('text-white');
+    }
+  });
+
+  // set text color on load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.scrollY <= 50) {
+      header?.classList.add('text-white');
+    } else {
+      header?.classList.add('text-gray-800');
+    }
   });
 </script>

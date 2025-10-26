@@ -12,6 +12,7 @@
 /frontend/dist
 /admin-pwa/dist
 /shared/dist
+npm_output.log
 /backend/.next
 /backend/.next/
 /frontend/.astro
