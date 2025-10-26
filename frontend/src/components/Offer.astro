@@ -1,0 +1,51 @@
+---
+// Offer component
+const services = [
+  {
+    title: 'Calculated Weather',
+    description: 'Built Wicket longer admire do barton vanity itself do in it.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/1163/1163661.png',
+    highlighted: false,
+  },
+  {
+    title: 'Best Flights',
+    description: 'Engrossed listening. Park gate sell they west hard for the.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/230/230110.png',
+    highlighted: true,
+  },
+  {
+    title: 'Local Events',
+    description: 'Barton vanity itself do in it. Preferred to men it engrossed listening.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/3094/3094849.png',
+    highlighted: false,
+  },
+  {
+    title: 'Customization',
+    description: 'We deliver outsourced aviation services for military customers.',
+    icon: 'https://cdn-icons-png.flaticon.com/512/1035/1035029.png',
+    highlighted: false,
+  },
+];
+---
+
+<section class="py-16 md:py-24 bg-accent-300 relative overflow-hidden">
+  <div class="absolute -top-16 -right-16 w-48 h-48 bg-primary-200/50 rounded-full"></div>
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="text-center mb-12">
+      <p class="text-lg text-gray-600 font-semibold">CATEGORY</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold text-secondary-600">We Offer Best Services</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map(service => (
+        <div class={`relative text-center p-8 rounded-3xl transition-all duration-300 ${service.highlighted ? 'bg-white shadow-2xl' : 'bg-transparent'}`}>
+          <div class="relative inline-block mb-6">
+            <img src={service.icon} alt={service.title} class="w-16 h-16 mx-auto">
+          </div>
+          <h3 class="text-xl font-bold text-secondary-700 mb-2">{service.title}</h3>
+          <p class="text-gray-600">{service.description}</p>
+          {service.highlighted && <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-primary-500 rounded-tl-3xl rounded-br-xl -z-10"></div>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

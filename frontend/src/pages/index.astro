@@ -1,19 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import FeaturedPackages from '../components/FeaturedPackages.astro';
-import WhyChooseUs from '../components/WhyChooseUs.astro';
+import Offer from '../components/Offer.astro';
+import Destinations from '../components/Destinations.astro';
+import Booking from '../components/Booking.astro';
 import Testimonials from '../components/Testimonials.astro';
-// import Newsletter from '../components/Newsletter.astro';
+import TourPackages from '../components/TourPackages.astro';
 
-const pageTitle = 'XYZ Tours and Travels - Premium South India Tours';
-const pageDescription = 'Discover the enchanting beauty of South India with our curated tours. Experience Kerala backwaters, Tamil Nadu temples, Karnataka heritage, and more.';
+const pageTitle = 'Travel - Your Ultimate Travel Partner';
+const pageDescription = 'Discover the world with Travel. We offer the best tour packages, destinations, and services to make your travel dreams a reality.';
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
   <Hero />
-  <FeaturedPackages />
-  <WhyChooseUs />
+  <Offer />
+  <Destinations />
+  <TourPackages />
+  <Booking />
   <Testimonials />
-  <!-- <Newsletter /> -->
 </Layout>
