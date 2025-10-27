@@ -2,22 +2,40 @@
 // Destinations component
 const destinations = [
     {
-        name: 'Rome, Italy',
-        price: '5.42k',
-        duration: '10 days trip',
-        image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400'
-    },
-    {
-        name: 'London, UK',
-        price: '4.2k',
+        name: 'Kerala Backwaters',
+        price: '6.5k',
         duration: '12 days trip',
-        image: 'https://images.unsplash.com/photo-1529655683826-1a5b84f582da?w=400'
+        image: 'https://images.unsplash.com/photo-1602216056096-3b404e37b815?w=400'
     },
     {
-        name: 'Full Europe',
-        price: '15k',
-        duration: '28 days trip',
-        image: 'https://images.unsplash.com/photo-1502602898657-3e91760c0337?w=400'
+        name: 'Ooty, Tamil Nadu',
+        price: '4.8k',
+        duration: '7 days trip',
+        image: 'https://images.unsplash.com/photo-1593693397640-053a69a9630d?w=400'
+    },
+    {
+        name: 'Kodaikanal, Tamil Nadu',
+        price: '5.2k',
+        duration: '8 days trip',
+        image: 'https://images.unsplash.com/photo-1616174795943-b52473551515?w=400'
+    },
+    {
+        name: 'Munnar, Kerala',
+        price: '6.0k',
+        duration: '10 days trip',
+        image: 'https://images.unsplash.com/photo-1566542280315-a4e9b5f9a65a?w=400'
+    },
+    {
+        name: 'Hampi, Karnataka',
+        price: '7.2k',
+        duration: '14 days trip',
+        image: 'https://images.unsplash.com/photo-1590766989748-912a2a02a4e0?w=400'
+    },
+    {
+        name: 'Madurai, Tamil Nadu',
+        price: '4.5k',
+        duration: '6 days trip',
+        image: 'https://images.unsplash.com/photo-1578301594191-ce01952f41b6?w=400'
     }
 ]
 ---
@@ -33,9 +51,13 @@ const destinations = [
         <div class='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
             {
                 destinations.map((dest) => (
-                    <div class='group overflow-hidden rounded-3xl bg-white shadow-lg transition-transform duration-300 hover:-translate-y-2 dark:bg-gray-800'>
+                    <div class='group overflow-hidden rounded-3xl bg-white shadow-lg transition-transform duration-500 hover:rotate-3 hover:scale-105 dark:bg-gray-800'>
                         <div class='relative'>
-                            <img src={dest.image} alt={dest.name} class='h-80 w-full object-cover' />
+                            <img
+                                src={dest.image}
+                                alt={dest.name}
+                                class='h-80 w-full object-cover transition-transform duration-500 group-hover:scale-125'
+                            />
                             <div class='absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white'>
                                 <div class='flex items-center justify-between'>
                                     <h3 class='text-xl font-semibold'>{dest.name}</h3>

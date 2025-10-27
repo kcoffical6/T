@@ -1,51 +1,46 @@
-import type { APIRoute } from 'astro';
+---
+import { getCollection } from 'astro:content';
 
-export const GET: APIRoute = () => {
-  // This would typically fetch from your API or content collection
-  const packages = [
-    { slug: 'kerala-7-day-backwaters-hill-stations', lastmod: '2024-01-15' },
-    { slug: 'tamil-nadu-5-day-temple-circuit-hill-stations', lastmod: '2024-01-15' },
-    { slug: 'karnataka-6-day-heritage-nature-tour', lastmod: '2024-01-15' },
-    { slug: 'pondicherry-4-day-french-quarter-auroville', lastmod: '2024-01-15' },
-    { slug: 'kanyakumari-3-day-coastal-tour', lastmod: '2024-01-15' },
-    { slug: 'chennai-5-day-mahabalipuram-heritage-tour', lastmod: '2024-01-15' },
-    { slug: 'tirupati-4-day-andhra-temple-tour', lastmod: '2024-01-15' },
-    { slug: 'goa-6-day-south-india-coastal-experience', lastmod: '2024-01-15' },
-    { slug: 'complete-south-india-8-day-grand-tour', lastmod: '2024-01-15' },
-  ];
+// This would typically fetch from your API or content collection
+const packages = [
+  { slug: 'kerala-7-day-backwaters-hill-stations', lastmod: '2024-01-15' },
+  { slug: 'tamil-nadu-5-day-temple-circuit-hill-stations', lastmod: '2024-01-15' },
+  { slug: 'karnataka-6-day-heritage-nature-tour', lastmod: '2024-01-15' },
+  { slug: 'pondicherry-4-day-french-quarter-auroville', lastmod: '2024-01-15' },
+  { slug: 'kanyakumari-3-day-coastal-tour', lastmod: '2024-01-15' },
+  { slug: 'chennai-5-day-mahabalipuram-heritage-tour', lastmod: '2024-01-15' },
+  { slug: 'tirupati-4-day-andhra-temple-tour', lastmod: '2024-01-15' },
+  { slug: 'goa-6-day-south-india-coastal-experience', lastmod: '2024-01-15' },
+  { slug: 'complete-south-india-8-day-grand-tour', lastmod: '2024-01-15' },
+];
 
-  const staticPages = [
-    { url: '', lastmod: '2024-01-15', priority: 1.0 },
-    { url: '/packages', lastmod: '2024-01-15', priority: 0.9 },
-    { url: '/about', lastmod: '2024-01-15', priority: 0.8 },
-    { url: '/contact', lastmod: '2024-01-15', priority: 0.8 },
-  ];
+const staticPages = [
+  { url: '', lastmod: '2024-01-15', priority: 1.0 },
+  { url: '/packages', lastmod: '2024-01-15', priority: 0.9 },
+  { url: '/about', lastmod: '2024-01-15', priority: 0.8 },
+  { url: '/contact', lastmod: '2024-01-15', priority: 0.8 },
+];
 
-  const allPages = [
-    ...staticPages,
-    ...packages.map(pkg => ({
-      url: `/packages/${pkg.slug}`,
-      lastmod: pkg.lastmod,
-      priority: 0.8
-    }))
-  ];
+const allPages = [
+  ...staticPages,
+  ...packages.map(pkg => ({
+    url: `/packages/${pkg.slug}`,
+    lastmod: pkg.lastmod,
+    priority: 0.8
+  }))
+];
 
-  const site = 'https://xyztours.com';
+const site = 'https://xyztours.com';
+---
 
-  // Generate the XML sitemap content
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allPages.map(page => `  <url>
-    <loc>${site}${page.url}</loc>
-    <lastmod>${page.lastmod}</lastmod>
-    <priority>${page.priority}</priority>
-    <changefreq>weekly</changefreq>
-  </url>`).join('\n')}
-</urlset>`;
-
-  return new Response(sitemap, {
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-    },
-  });
-};
+  {allPages.map(page => (
+    <url>
+      <loc>{site}{page.url}</loc>
+      <lastmod>{page.lastmod}</lastmod>
+      <priority>{page.priority}</priority>
+      <changefreq>weekly</changefreq>
+    </url>
+  ))}
+</urlset>
