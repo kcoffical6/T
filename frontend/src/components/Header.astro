@@ -1,106 +1,142 @@
 ---
-// Header component
+import ThemeToggle from './ThemeToggle.astro'
 ---
 
-<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-  <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-24">
-      <!-- Logo -->
-      <div class="flex items-center">
-        <a href="/" class="flex items-center space-x-2 text-2xl font-bold">
-          <span>Travel</span>
-          <svg class="h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-          </svg>
-        </a>
-      </div>
+<header id='header' class='fixed inset-x-0 top-0 z-50 transition-all duration-300'>
+    <div class='container mx-auto px-4'>
+        <div class='flex h-24 items-center justify-between'>
+            <!-- Logo -->
+            <div class='flex items-center'>
+                <a href='/' class='flex items-center space-x-2 text-2xl font-bold'>
+                    <span>Travel</span>
+                    <svg
+                        class='size-6 text-primary-500'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke-width='1.5'
+                        stroke='currentColor'
+                    >
+                        <path
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            d='M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5'
+                        ></path>
+                    </svg>
+                </a>
+            </div>
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center space-x-8">
-        <a href="/" class="hover:text-primary-500 font-medium transition-colors">Home</a>
-        <a href="/about" class="hover:text-primary-500 font-medium transition-colors">About</a>
-        <a href="/services" class="hover:text-primary-500 font-medium transition-colors">Services</a>
-        <a href="/packages" class="hover:text-primary-500 font-medium transition-colors">Upcoming Packages</a>
-      </nav>
+            <!-- Desktop Navigation -->
+            <nav class='hidden items-center space-x-8 md:flex'>
+                <a href='/' class='font-medium transition-colors hover:text-primary-500'>Home</a>
+                <a href='/about' class='font-medium transition-colors hover:text-primary-500'>About</a>
+                <a href='/services' class='font-medium transition-colors hover:text-primary-500'>Services</a>
+                <a href='/packages' class='font-medium transition-colors hover:text-primary-500'>Upcoming Packages</a>
+            </nav>
 
-      <!-- CTA Buttons -->
-      <div class="hidden md:flex items-center space-x-4">
-        <a href="/login" class="hover:text-primary-500 font-medium">Login</a>
-        <a href="/signup" class="px-6 py-2 border border-secondary-500 text-secondary-500 font-bold rounded-md hover:bg-secondary-500 hover:text-white transition-colors">
-          Sign up
-        </a>
-        <div class="relative">
-          <button class="flex items-center hover:text-primary-500 font-medium">
-            <span>EN</span>
-            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-          </button>
-        </div>
-      </div>
+            <!-- CTA Buttons -->
+            <div class='hidden items-center space-x-4 md:flex'>
+                <a href='/login' class='font-medium hover:text-primary-500'>Login</a>
+                <a
+                    href='/signup'
+                    class='rounded-md border border-secondary-500 px-6 py-2 font-bold text-secondary-500 transition-colors hover:bg-secondary-500 hover:text-white dark:hover:text-gray-800'
+                >
+                    Sign up
+                </a>
+                <div class='relative'>
+                    <button class='flex items-center font-medium hover:text-primary-500'>
+                        <span>EN</span>
+                        <svg class='ml-1 size-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'
+                            ><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'
+                            ></path></svg
+                        >
+                    </button>
+                </div>
+                <ThemeToggle />
+            </div>
 
-      <!-- Mobile menu button -->
-      <button class="md:hidden p-2" id="mobile-menu-button">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile Navigation -->
-  <div class="md:hidden hidden bg-white text-gray-800" id="mobile-menu">
-    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a href="/" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Home</a>
-      <a href="/about" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">About</a>
-      <a href="/services" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Services</a>
-      <a href="/packages" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Upcoming Packages</a>
-    </div>
-    <div class="pt-4 pb-3 border-t border-gray-200">
-      <div class="flex items-center justify-center px-5 space-x-4">
-          <a href="/login" class="text-base font-medium hover:text-primary-500">Login</a>
-          <a href="/signup" class="px-4 py-2 border border-secondary-500 text-secondary-500 font-medium rounded-md hover:bg-secondary-500 hover:text-white transition-colors">
-            Sign up
-          </a>
-          <div class="relative">
-            <button class="flex items-center hover:text-primary-500 font-medium">
-              <span>EN</span>
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            <!-- Mobile menu button -->
+            <button class='p-2 md:hidden' id='mobile-menu-button'>
+                <svg class='size-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16'
+                    ></path>
+                </svg>
             </button>
-          </div>
-      </div>
+        </div>
     </div>
-  </div>
+
+    <!-- Mobile Navigation -->
+    <div class='hidden bg-white text-gray-800 dark:bg-gray-800 dark:text-white md:hidden' id='mobile-menu'>
+        <div class='space-y-1 px-2 pb-3 pt-2 sm:px-3'>
+            <a href='/' class='block rounded-md px-3 py-2 text-base font-medium hover:bg-gray-50 dark:hover:bg-gray-700'
+                >Home</a
+            >
+            <a
+                href='/about'
+                class='block rounded-md px-3 py-2 text-base font-medium hover:bg-gray-50 dark:hover:bg-gray-700'
+                >About</a
+            >
+            <a
+                href='/services'
+                class='block rounded-md px-3 py-2 text-base font-medium hover:bg-gray-50 dark:hover:bg-gray-700'
+                >Services</a
+            >
+            <a
+                href='/packages'
+                class='block rounded-md px-3 py-2 text-base font-medium hover:bg-gray-50 dark:hover:bg-gray-700'
+                >Upcoming Packages</a
+            >
+        </div>
+        <div class='border-t border-gray-200 pb-3 pt-4 dark:border-gray-700'>
+            <div class='flex items-center justify-center space-x-4 px-5'>
+                <a href='/login' class='text-base font-medium hover:text-primary-500'>Login</a>
+                <a
+                    href='/signup'
+                    class='rounded-md border border-secondary-500 px-4 py-2 font-medium text-secondary-500 transition-colors hover:bg-secondary-500 hover:text-white dark:hover:text-gray-800'
+                >
+                    Sign up
+                </a>
+                <div class='relative'>
+                    <button class='flex items-center font-medium hover:text-primary-500'>
+                        <span>EN</span>
+                        <svg class='ml-1 size-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'
+                            ><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'
+                            ></path></svg
+                        >
+                    </button>
+                </div>
+                <ThemeToggle />
+            </div>
+        </div>
+    </div>
 </header>
 
 <script>
-  // Mobile menu toggle
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const header = document.getElementById('header');
-  
-  mobileMenuButton?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
-    header?.classList.toggle('bg-white');
-    header?.classList.toggle('text-gray-800');
-    header?.classList.toggle('text-white');
-  });
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button')
+    const mobileMenu = document.getElementById('mobile-menu')
+    const header = document.getElementById('header')
 
-  // Header scroll effect
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header?.classList.add('bg-white', 'shadow-lg', 'text-gray-800');
-      header?.classList.remove('text-white');
-    } else {
-      header?.classList.remove('bg-white', 'shadow-lg', 'text-gray-800');
-      header?.classList.add('text-white');
-    }
-  });
+    mobileMenuButton?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden')
+        updateHeaderStyle()
+    })
 
-  // set text color on load
-  document.addEventListener('DOMContentLoaded', () => {
-    if (window.scrollY <= 50) {
-      header?.classList.add('text-white');
-    } else {
-      header?.classList.add('text-gray-800');
+    function updateHeaderStyle() {
+        if (window.scrollY > 50 || !mobileMenu?.classList.contains('hidden')) {
+            header?.classList.add('bg-white', 'dark:bg-gray-800', 'shadow-lg')
+            header?.classList.remove('text-white', 'dark:text-white')
+            header?.classList.add('text-gray-800', 'dark:text-gray-200')
+        } else {
+            header?.classList.remove('bg-white', 'dark:bg-gray-800', 'shadow-lg')
+            header?.classList.remove('text-gray-800', 'dark:text-gray-200')
+            header?.classList.add('text-white', 'dark:text-white')
+        }
     }
-  });
+
+    // Header scroll effect
+    window.addEventListener('scroll', updateHeaderStyle)
+
+    // set text color on load
+    document.addEventListener('DOMContentLoaded', updateHeaderStyle)
 </script>

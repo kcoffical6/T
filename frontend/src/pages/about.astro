@@ -1,101 +1,134 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro'
 
-const pageTitle = 'About XYZ Tours and Travels - Your South India Travel Partner';
-const pageDescription = 'Learn about XYZ Tours and Travels, your trusted partner for exploring the beautiful destinations of South India.';
+const pageTitle = 'About XYZ Tours and Travels - Your South India Travel Partner'
+const pageDescription =
+    'Learn about XYZ Tours and Travels, your trusted partner for exploring the beautiful destinations of South India.'
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <div class="min-h-screen bg-white">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-6xl font-bold mb-6">
-            About XYZ Tours
-          </h1>
-          <p class="text-xl md:text-2xl mb-8 opacity-90">
-            Your trusted partner in discovering the enchanting beauty of South India
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Content -->
-    <section class="py-16">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <div class="prose prose-lg mx-auto">
-            <h2>Our Story</h2>
-            <p>
-              XYZ Tours and Travels was founded with a simple mission: to showcase the incredible beauty and rich cultural heritage of South India to travelers from around the world. With over a decade of experience in the travel industry, we have become the premier choice for international travelers seeking authentic South Indian experiences.
-            </p>
-            
-            <h2>Why Choose Us</h2>
-            <ul>
-              <li><strong>Expert Local Knowledge:</strong> Our team consists of local experts who know every hidden gem and cultural nuance of South India.</li>
-              <li><strong>Curated Experiences:</strong> We carefully craft each tour to provide authentic, meaningful experiences that go beyond typical tourist attractions.</li>
-              <li><strong>Quality Accommodations:</strong> We partner with the finest hotels and resorts to ensure your comfort throughout your journey.</li>
-              <li><strong>Professional Guides:</strong> Our English-speaking guides are not just knowledgeable but passionate about sharing their culture.</li>
-              <li><strong>Flexible Itineraries:</strong> We understand that every traveler is unique, and we offer customizable packages to suit your preferences.</li>
-            </ul>
-
-            <h2>Our Commitment</h2>
-            <p>
-              We are committed to sustainable tourism practices that benefit local communities while preserving the natural beauty and cultural heritage of South India. Every tour we offer is designed to create positive impact for both our guests and the destinations we visit.
-            </p>
-
-            <h2>Regions We Cover</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-semibold mb-3">Kerala</h3>
-                <p>Known as "God's Own Country," Kerala offers serene backwaters, misty hill stations, and pristine beaches.</p>
-              </div>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-semibold mb-3">Tamil Nadu</h3>
-                <p>Rich in cultural heritage with magnificent temples, ancient architecture, and vibrant traditions.</p>
-              </div>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-semibold mb-3">Karnataka</h3>
-                <p>Home to royal palaces, UNESCO World Heritage sites, and lush coffee plantations.</p>
-              </div>
-              <div class="bg-gray-50 p-6 rounded-lg">
-                <h3 class="text-xl font-semibold mb-3">Pondicherry</h3>
-                <p>A unique blend of French colonial charm and Indian spirituality.</p>
-              </div>
+    <div class='min-h-screen bg-white'>
+        <!-- Hero Section -->
+        <section class='bg-gradient-to-r from-primary-600 to-primary-800 py-20 text-white'>
+            <div class='container mx-auto px-4'>
+                <div class='mx-auto max-w-4xl text-center'>
+                    <h1 class='mb-6 text-4xl font-bold md:text-6xl'>About XYZ Tours</h1>
+                    <p class='mb-8 text-xl opacity-90 md:text-2xl'>
+                        Your trusted partner in discovering the enchanting beauty of South India
+                    </p>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <!-- Team Section -->
-    <section class="py-16 bg-gray-50">
-      <div class="container mx-auto px-4">
-        <div class="max-w-6xl mx-auto">
-          <h2 class="text-3xl font-bold text-center mb-12">Meet Our Team</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center">
-              <div class="w-32 h-32 bg-primary-200 rounded-full mx-auto mb-4"></div>
-              <h3 class="text-xl font-semibold mb-2">Rajesh Kumar</h3>
-              <p class="text-primary-600 mb-2">Founder & CEO</p>
-              <p class="text-gray-600">With 15 years in the travel industry, Rajesh founded XYZ Tours to share his passion for South India.</p>
+        <!-- About Content -->
+        <section class='py-16'>
+            <div class='container mx-auto px-4'>
+                <div class='mx-auto max-w-4xl'>
+                    <div class='prose prose-lg mx-auto'>
+                        <h2>Our Story</h2>
+                        <p>
+                            XYZ Tours and Travels was founded with a simple mission: to showcase the incredible beauty
+                            and rich cultural heritage of South India to travelers from around the world. With over a
+                            decade of experience in the travel industry, we have become the premier choice for
+                            international travelers seeking authentic South Indian experiences.
+                        </p>
+
+                        <h2>Why Choose Us</h2>
+                        <ul>
+                            <li>
+                                <strong>Expert Local Knowledge:</strong> Our team consists of local experts who know every
+                                hidden gem and cultural nuance of South India.
+                            </li>
+                            <li>
+                                <strong>Curated Experiences:</strong> We carefully craft each tour to provide authentic,
+                                meaningful experiences that go beyond typical tourist attractions.
+                            </li>
+                            <li>
+                                <strong>Quality Accommodations:</strong> We partner with the finest hotels and resorts to
+                                ensure your comfort throughout your journey.
+                            </li>
+                            <li>
+                                <strong>Professional Guides:</strong> Our English-speaking guides are not just knowledgeable
+                                but passionate about sharing their culture.
+                            </li>
+                            <li>
+                                <strong>Flexible Itineraries:</strong> We understand that every traveler is unique, and we
+                                offer customizable packages to suit your preferences.
+                            </li>
+                        </ul>
+
+                        <h2>Our Commitment</h2>
+                        <p>
+                            We are committed to sustainable tourism practices that benefit local communities while
+                            preserving the natural beauty and cultural heritage of South India. Every tour we offer is
+                            designed to create positive impact for both our guests and the destinations we visit.
+                        </p>
+
+                        <h2>Regions We Cover</h2>
+                        <div class='mt-8 grid grid-cols-1 gap-6 md:grid-cols-2'>
+                            <div class='rounded-lg bg-gray-50 p-6'>
+                                <h3 class='mb-3 text-xl font-semibold'>Kerala</h3>
+                                <p>
+                                    Known as "God's Own Country," Kerala offers serene backwaters, misty hill stations,
+                                    and pristine beaches.
+                                </p>
+                            </div>
+                            <div class='rounded-lg bg-gray-50 p-6'>
+                                <h3 class='mb-3 text-xl font-semibold'>Tamil Nadu</h3>
+                                <p>
+                                    Rich in cultural heritage with magnificent temples, ancient architecture, and
+                                    vibrant traditions.
+                                </p>
+                            </div>
+                            <div class='rounded-lg bg-gray-50 p-6'>
+                                <h3 class='mb-3 text-xl font-semibold'>Karnataka</h3>
+                                <p>Home to royal palaces, UNESCO World Heritage sites, and lush coffee plantations.</p>
+                            </div>
+                            <div class='rounded-lg bg-gray-50 p-6'>
+                                <h3 class='mb-3 text-xl font-semibold'>Pondicherry</h3>
+                                <p>A unique blend of French colonial charm and Indian spirituality.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center">
-              <div class="w-32 h-32 bg-primary-200 rounded-full mx-auto mb-4"></div>
-              <h3 class="text-xl font-semibold mb-2">Priya Sharma</h3>
-              <p class="text-primary-600 mb-2">Operations Director</p>
-              <p class="text-gray-600">Priya ensures every detail of your journey is perfect, from accommodation to transportation.</p>
+        </section>
+
+        <!-- Team Section -->
+        <section class='bg-gray-50 py-16'>
+            <div class='container mx-auto px-4'>
+                <div class='mx-auto max-w-6xl'>
+                    <h2 class='mb-12 text-center text-3xl font-bold'>Meet Our Team</h2>
+                    <div class='grid grid-cols-1 gap-8 md:grid-cols-3'>
+                        <div class='text-center'>
+                            <div class='mx-auto mb-4 size-32 rounded-full bg-primary-200'></div>
+                            <h3 class='mb-2 text-xl font-semibold'>Rajesh Kumar</h3>
+                            <p class='mb-2 text-primary-600'>Founder & CEO</p>
+                            <p class='text-gray-600'>
+                                With 15 years in the travel industry, Rajesh founded XYZ Tours to share his passion for
+                                South India.
+                            </p>
+                        </div>
+                        <div class='text-center'>
+                            <div class='mx-auto mb-4 size-32 rounded-full bg-primary-200'></div>
+                            <h3 class='mb-2 text-xl font-semibold'>Priya Sharma</h3>
+                            <p class='mb-2 text-primary-600'>Operations Director</p>
+                            <p class='text-gray-600'>
+                                Priya ensures every detail of your journey is perfect, from accommodation to
+                                transportation.
+                            </p>
+                        </div>
+                        <div class='text-center'>
+                            <div class='mx-auto mb-4 size-32 rounded-full bg-primary-200'></div>
+                            <h3 class='mb-2 text-xl font-semibold'>Kumar Rajan</h3>
+                            <p class='mb-2 text-primary-600'>Head of Guides</p>
+                            <p class='text-gray-600'>
+                                Kumar leads our team of expert guides, ensuring authentic and engaging experiences.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center">
-              <div class="w-32 h-32 bg-primary-200 rounded-full mx-auto mb-4"></div>
-              <h3 class="text-xl font-semibold mb-2">Kumar Rajan</h3>
-              <p class="text-primary-600 mb-2">Head of Guides</p>
-              <p class="text-gray-600">Kumar leads our team of expert guides, ensuring authentic and engaging experiences.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+        </section>
+    </div>
 </Layout>

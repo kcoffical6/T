@@ -1,75 +1,80 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css';
+import '../styles/global.css'
+
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
 
 export interface Props {
-  title: string;
-  description: string;
-  image?: string;
-  canonical?: string;
+    title: string
+    description: string
+    image?: string
+    canonical?: string
 }
 
-const { title, description, image = '/og-image.jpg', canonical } = Astro.props;
-const canonicalURL = canonical || Astro.url.href;
+const { title, description, image = '/og-image.jpg', canonical } = Astro.props
+const canonicalURL = canonical || Astro.url.href
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    
-    <!-- SEO Meta Tags -->
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={image} />
-    
-    <!-- Additional Meta Tags -->
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="XYZ Tours and Travels" />
-    <meta name="theme-color" content="#3b82f6" />
-    
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
-    <!-- Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      function gtag(...args: any[]){(window as any).dataLayer.push(args);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
-  </head>
-  <body class="font-sans antialiased">
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
-  </body>
-</html>
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <meta name='description' content={description} />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+        <meta name='generator' content={Astro.generator} />
 
+        <!-- SEO Meta Tags -->
+        <title>{title}</title>
+        <meta name='description' content={description} />
+        <link rel='canonical' href={canonicalURL} />
+
+        <!-- Open Graph / Facebook -->
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content={canonicalURL} />
+        <meta property='og:title' content={title} />
+        <meta property='og:description' content={description} />
+        <meta property='og:image' content={image} />
+
+        <!-- Twitter -->
+        <meta property='twitter:card' content='summary_large_image' />
+        <meta property='twitter:url' content={canonicalURL} />
+        <meta property='twitter:title' content={title} />
+        <meta property='twitter:description' content={description} />
+        <meta property='twitter:image' content={image} />
+
+        <!-- Additional Meta Tags -->
+        <meta name='robots' content='index, follow' />
+        <meta name='author' content='XYZ Tours and Travels' />
+        <meta name='theme-color' content='#3b82f6' />
+
+        <!-- Preconnect to external domains -->
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+
+        <!-- Google Fonts -->
+        <link href='https://fonts.googleapis.com/css2?family=Volkhov:wght@400;700&display=swap' rel='stylesheet' />
+        <link
+            href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'
+            rel='stylesheet'
+        />
+
+        <!-- Analytics -->
+        <script async src='https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX'></script>
+        <script>
+            ;(window as any).dataLayer = (window as any).dataLayer || []
+            function gtag(...args: any[]) {
+                ;(window as any).dataLayer.push(args)
+            }
+            gtag('js', new Date())
+            gtag('config', 'G-XXXXXXXXXX')
+        </script>
+    </head>
+    <body class='bg-white font-sans text-gray-800 antialiased dark:bg-gray-900 dark:text-gray-200'>
+        <Header />
+        <main>
+            <slot />
+        </main>
+        <Footer />
+    </body>
+</html>

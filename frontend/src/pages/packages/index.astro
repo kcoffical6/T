@@ -1,41 +1,39 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PackageGrid from '../../components/PackageGrid.astro';
-import PackageFilters from '../../components/PackageFilters.astro';
+import PackageFilters from '../../components/PackageFilters.astro'
+import PackageGrid from '../../components/PackageGrid.astro'
+import Layout from '../../layouts/Layout.astro'
 
-
-const pageTitle = 'South India Tour Packages - XYZ Tours and Travels';
-const pageDescription = 'Explore our comprehensive collection of South India tour packages. From Kerala backwaters to Tamil Nadu temples, discover the best of South India.';
+const pageTitle = 'South India Tour Packages - XYZ Tours and Travels'
+const pageDescription =
+    'Explore our comprehensive collection of South India tour packages. From Kerala backwaters to Tamil Nadu temples, discover the best of South India.'
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <div class="min-h-screen bg-white dark:bg-gray-900">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-6xl font-bold mb-6">
-            Discover South India
-          </h1>
-          <p class="text-xl md:text-2xl mb-8 opacity-90">
-            From misty hill stations to serene backwaters, explore the diverse beauty of South India
-          </p>
-        </div>
-      </div>
-    </section>
+    <div class='min-h-screen bg-white dark:bg-gray-900'>
+        <!-- Hero Section -->
+        <section class='bg-gradient-to-r from-primary-600 to-primary-800 py-20 text-white'>
+            <div class='container mx-auto px-4'>
+                <div class='mx-auto max-w-4xl text-center'>
+                    <h1 class='mb-6 text-4xl font-bold md:text-6xl'>Discover South India</h1>
+                    <p class='mb-8 text-xl opacity-90 md:text-2xl'>
+                        From misty hill stations to serene backwaters, explore the diverse beauty of South India
+                    </p>
+                </div>
+            </div>
+        </section>
 
-    <!-- Filters -->
-    <section class="py-8 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-      <div class="container mx-auto px-4">
-        <PackageFilters />
-      </div>
-    </section>
+        <!-- Filters -->
+        <section class='border-b border-gray-200 bg-white py-8 shadow-sm dark:border-gray-700 dark:bg-gray-800'>
+            <div class='container mx-auto px-4'>
+                <PackageFilters />
+            </div>
+        </section>
 
-    <!-- Packages Grid -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-900">
-      <div class="container mx-auto px-4">
-        <PackageGrid />
-      </div>
-    </section>
-  </div>
+        <!-- Packages Grid -->
+        <section class='bg-gray-50 py-12 dark:bg-gray-900'>
+            <div class='container mx-auto px-4'>
+                <PackageGrid />
+            </div>
+        </section>
+    </div>
 </Layout>
