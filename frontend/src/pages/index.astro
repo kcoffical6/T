@@ -1,21 +1,22 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import Offer from '../components/Offer.astro';
-import Destinations from '../components/Destinations.astro';
-import Booking from '../components/Booking.astro';
-import Testimonials from '../components/Testimonials.astro';
-import TourPackages from '../components/TourPackages.astro';
+import Booking from '../components/Booking.astro'
+import Destinations from '../components/Destinations.astro'
+import Hero from '../components/Hero.astro'
+import Offer from '../components/Offer.astro'
+import Testimonials from '../components/Testimonials.astro'
+import TourPackages from '../components/TourPackages.astro'
+import Layout from '../layouts/Layout.astro'
 
-const pageTitle = 'Travel - Your Ultimate Travel Partner';
-const pageDescription = 'Discover the world with Travel. We offer the best tour packages, destinations, and services to make your travel dreams a reality.';
+const pageTitle = 'Travel - Your Ultimate Travel Partner'
+const pageDescription =
+    'Discover the world with Travel. We offer the best tour packages, destinations, and services to make your travel dreams a reality.'
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <Hero />
-  <Offer />
-  <Destinations />
-  <TourPackages />
-  <Booking />
-  <Testimonials />
+    <Hero />
+    <Offer />
+    <Destinations />
+    <TourPackages />
+    <Booking />
+    <Testimonials />
 </Layout>

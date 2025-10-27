@@ -1,81 +1,130 @@
 ---
 // Booking component
 const trip = {
-  name: 'Trip to Greece',
-  date: '14-29 June',
-  by: 'Robbin Joseph',
-  image: 'https://images.unsplash.com/photo-1604959649476-5a8918d363a4?w=400',
-  people: 24,
-  status: 'Ongoing',
-};
+    name: 'Trip to Greece',
+    date: '14-29 June',
+    by: 'Robbin Joseph',
+    image: 'https://images.unsplash.com/photo-1604959649476-5a8918d363a4?w=400',
+    people: 24,
+    status: 'Ongoing'
+}
 ---
 
-<section class="py-16 md:py-24 bg-accent-400">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col md:flex-row items-center gap-12">
-      <!-- Left Content -->
-      <div class="md:w-1/2 text-center md:text-left">
-        <p class="text-lg text-gray-600 font-semibold">Easy and Fast</p>
-        <h2 class="font-serif text-4xl md:text-5xl font-bold text-secondary-600 mb-8">Book your next trip in 3 easy steps</h2>
-        <ul class="space-y-6">
-          <li class="flex items-center space-x-4">
-            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-yellow-400 flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.333 0-7 1.167-7 3.5V19h14v-2.5c0-2.333-4.667-3.5-7-3.5z"></path></svg>
+<section class='bg-accent-400 py-16 dark:bg-gray-800 md:py-24'>
+    <div class='container mx-auto px-4'>
+        <div class='flex flex-col items-center gap-12 md:flex-row'>
+            <!-- Left Content -->
+            <div class='text-center md:w-1/2 md:text-left'>
+                <p class='text-lg font-semibold text-gray-600 dark:text-gray-400'>Easy and Fast</p>
+                <h2 class='mb-8 font-serif text-4xl font-bold text-secondary-600 dark:text-secondary-400 md:text-5xl'>
+                    Book your next trip in 3 easy steps
+                </h2>
+                <ul class='space-y-6'>
+                    <li class='flex items-center space-x-4'>
+                        <div class='flex size-12 shrink-0 items-center justify-center rounded-lg bg-yellow-400'>
+                            <svg class='size-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'
+                                ><path
+                                    stroke-linecap='round'
+                                    stroke-linejoin='round'
+                                    stroke-width='2'
+                                    d='M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.333 0-7 1.167-7 3.5V19h14v-2.5c0-2.333-4.667-3.5-7-3.5z'
+                                ></path></svg
+                            >
+                        </div>
+                        <div>
+                            <h3 class='font-bold text-gray-800 dark:text-gray-200'>Choose Destination</h3>
+                            <p class='text-gray-600 dark:text-gray-400'>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            </p>
+                        </div>
+                    </li>
+                    <li class='flex items-center space-x-4'>
+                        <div class='flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary-500'>
+                            <svg class='size-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'
+                                ><path
+                                    stroke-linecap='round'
+                                    stroke-linejoin='round'
+                                    stroke-width='2'
+                                    d='M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v2m10 0a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6a2 2 0 012-2h10z'
+                                ></path></svg
+                            >
+                        </div>
+                        <div>
+                            <h3 class='font-bold text-gray-800 dark:text-gray-200'>Make Payment</h3>
+                            <p class='text-gray-600 dark:text-gray-400'>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            </p>
+                        </div>
+                    </li>
+                    <li class='flex items-center space-x-4'>
+                        <div class='flex size-12 shrink-0 items-center justify-center rounded-lg bg-secondary-500'>
+                            <svg class='size-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'
+                                ><path
+                                    stroke-linecap='round'
+                                    stroke-linejoin='round'
+                                    stroke-width='2'
+                                    d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'></path></svg
+                            >
+                        </div>
+                        <div>
+                            <h3 class='font-bold text-gray-800 dark:text-gray-200'>Reach Airport on Selected Date</h3>
+                            <p class='text-gray-600 dark:text-gray-400'>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <div>
-              <h3 class="font-bold text-gray-800">Choose Destination</h3>
-              <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </li>
-          <li class="flex items-center space-x-4">
-            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-primary-500 flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v2m10 0a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6a2 2 0 012-2h10z"></path></svg>
-            </div>
-            <div>
-              <h3 class="font-bold text-gray-800">Make Payment</h3>
-              <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </li>
-          <li class="flex items-center space-x-4">
-            <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-secondary-500 flex items-center justify-center">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <div>
-              <h3 class="font-bold text-gray-800">Reach Airport on Selected Date</h3>
-              <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
 
-      <!-- Right Card -->
-      <div class="md:w-1/2 flex justify-center">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm relative">
-          <img src={trip.image} alt={trip.name} class="rounded-2xl w-full h-48 object-cover mb-4">
-          <h3 class="text-lg font-bold text-gray-800">{trip.name}</h3>
-          <p class="text-gray-600 mb-4">{trip.date} by {trip.by}</p>
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center space-x-2">
-              <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <span class="text-gray-600">{trip.people} people going</span>
+            <!-- Right Card -->
+            <div class='flex justify-center md:w-1/2'>
+                <div class='relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800'>
+                    <img src={trip.image} alt={trip.name} class='mb-4 h-48 w-full rounded-2xl object-cover' />
+                    <h3 class='text-lg font-bold text-gray-800 dark:text-gray-200'>{trip.name}</h3>
+                    <p class='mb-4 text-gray-600 dark:text-gray-400'>{trip.date} by {trip.by}</p>
+                    <div class='mb-4 flex items-center justify-between'>
+                        <div class='flex items-center space-x-2'>
+                            <svg
+                                class='size-5 text-gray-500 dark:text-gray-400'
+                                fill='none'
+                                stroke='currentColor'
+                                viewBox='0 0 24 24'
+                                ><path
+                                    stroke-linecap='round'
+                                    stroke-linejoin='round'
+                                    stroke-width='2'
+                                    d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'></path></svg
+                            >
+                            <span class='text-gray-600 dark:text-gray-400'>{trip.people} people going</span>
+                        </div>
+                        <div class='text-primary-500'>
+                            <svg class='size-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'
+                                ><path
+                                    stroke-linecap='round'
+                                    stroke-linejoin='round'
+                                    stroke-width='2'
+                                    d='M5 13l4 4L19 7'></path></svg
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class='absolute -bottom-12 -right-12 flex w-3/4 items-center space-x-4 rounded-xl bg-white p-4 shadow-lg dark:bg-gray-700'
+                    >
+                        <img
+                            src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'
+                            class='size-12 rounded-full object-cover'
+                        />
+                        <div>
+                            <p class='text-sm text-gray-600 dark:text-gray-400'>Ongoing</p>
+                            <h4 class='font-bold text-gray-800 dark:text-gray-200'>Trip to Rome</h4>
+                            <p class='text-sm'><span class='text-primary-500'>40%</span> completed</p>
+                            <div class='mt-1 h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-600'>
+                                <div class='h-1.5 rounded-full bg-primary-500' style='width: 40%'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-primary-500">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-          </div>
-          <div class="bg-white rounded-xl shadow-lg p-4 flex items-center space-x-4 absolute -bottom-12 -right-12 w-3/4">
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="w-12 h-12 rounded-full object-cover">
-            <div>
-              <p class="text-sm text-gray-600">Ongoing</p>
-              <h4 class="font-bold text-gray-800">Trip to Rome</h4>
-              <p class="text-sm"><span class="text-primary-500">40%</span> completed</p>
-              <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                <div class="bg-primary-500 h-1.5 rounded-full" style="width: 40%"></div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>

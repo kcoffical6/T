@@ -1,53 +1,68 @@
 ---
 // Destinations component
 const destinations = [
-  {
-    name: 'Rome, Italy',
-    price: '5.42k',
-    duration: '10 days trip',
-    image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400',
-  },
-  {
-    name: 'London, UK',
-    price: '4.2k',
-    duration: '12 days trip',
-    image: 'https://images.unsplash.com/photo-1529655683826-1a5b84f582da?w=400',
-  },
-  {
-    name: 'Full Europe',
-    price: '15k',
-    duration: '28 days trip',
-    image: 'https://images.unsplash.com/photo-1502602898657-3e91760c0337?w=400',
-  },
-];
+    {
+        name: 'Rome, Italy',
+        price: '5.42k',
+        duration: '10 days trip',
+        image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400'
+    },
+    {
+        name: 'London, UK',
+        price: '4.2k',
+        duration: '12 days trip',
+        image: 'https://images.unsplash.com/photo-1529655683826-1a5b84f582da?w=400'
+    },
+    {
+        name: 'Full Europe',
+        price: '15k',
+        duration: '28 days trip',
+        image: 'https://images.unsplash.com/photo-1502602898657-3e91760c0337?w=400'
+    }
+]
 ---
 
-<section class="py-16 md:py-24 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <p class="text-lg text-gray-600 font-semibold">Top Selling</p>
-      <h2 class="font-serif text-4xl md:text-5xl font-bold text-secondary-600">Top Destinations</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {destinations.map(dest => (
-        <div class="bg-white rounded-3xl shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
-          <div class="relative">
-            <img src={dest.image} alt={dest.name} class="w-full h-80 object-cover">
-            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent text-white">
-              <div class="flex justify-between items-center">
-                <h3 class="text-xl font-semibold">{dest.name}</h3>
-                <p class="text-lg font-medium">${dest.price}</p>
-              </div>
-              <div class="flex items-center mt-2">
-                <svg class="w-5 h-5 text-primary-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 19.5l-5.25-4.5 1.5-1.5 3.75 3.25L17.25 12l1.5 1.5-6.75 6z" />
-                </svg>
-                <span>{dest.duration}</span>
-              </div>
-            </div>
-          </div>
+<section class='bg-white py-16 dark:bg-gray-900 md:py-24'>
+    <div class='container mx-auto px-4'>
+        <div class='mb-12 text-center'>
+            <p class='text-lg font-semibold text-gray-600 dark:text-gray-400'>Top Selling</p>
+            <h2 class='font-serif text-4xl font-bold text-secondary-600 dark:text-secondary-400 md:text-5xl'>
+                Top Destinations
+            </h2>
         </div>
-      ))}
+        <div class='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+            {
+                destinations.map((dest) => (
+                    <div class='group overflow-hidden rounded-3xl bg-white shadow-lg transition-transform duration-300 hover:-translate-y-2 dark:bg-gray-800'>
+                        <div class='relative'>
+                            <img src={dest.image} alt={dest.name} class='h-80 w-full object-cover' />
+                            <div class='absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white'>
+                                <div class='flex items-center justify-between'>
+                                    <h3 class='text-xl font-semibold'>{dest.name}</h3>
+                                    <p class='text-lg font-medium'>${dest.price}</p>
+                                </div>
+                                <div class='mt-2 flex items-center'>
+                                    <svg
+                                        class='mr-2 size-5 text-primary-500'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        fill='none'
+                                        viewBox='0 0 24 24'
+                                        stroke-width='1.5'
+                                        stroke='currentColor'
+                                    >
+                                        <path
+                                            stroke-linecap='round'
+                                            stroke-linejoin='round'
+                                            d='M12 19.5l-5.25-4.5 1.5-1.5 3.75 3.25L17.25 12l1.5 1.5-6.75 6z'
+                                        />
+                                    </svg>
+                                    <span>{dest.duration}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
     </div>
-  </div>
 </section>

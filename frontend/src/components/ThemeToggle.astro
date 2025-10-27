@@ -2,72 +2,75 @@
 // ThemeToggle component for switching between dark and light themes
 ---
 
-<div class="flex items-center">
-  <button 
-    id="theme-toggle" 
-    class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-    aria-label="Toggle theme"
-  >
-    <!-- Sun icon for light mode -->
-    <svg id="sun-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-    </svg>
-    
-    <!-- Moon icon for dark mode -->
-    <svg id="moon-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-    </svg>
-  </button>
+<div class='flex items-center'>
+    <button
+        id='theme-toggle'
+        class='rounded-lg bg-gray-100 p-2 text-gray-700 transition-colors hover:bg-gray-200 hover:text-gray-900 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white'
+        aria-label='Toggle theme'
+    >
+        <!-- Sun icon for light mode -->
+        <svg id='sun-icon' class='hidden size-5' fill='currentColor' viewBox='0 0 20 20'>
+            <path
+                fill-rule='evenodd'
+                d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z'
+                clip-rule='evenodd'></path>
+        </svg>
+
+        <!-- Moon icon for dark mode -->
+        <svg id='moon-icon' class='size-5' fill='currentColor' viewBox='0 0 20 20'>
+            <path d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z'></path>
+        </svg>
+    </button>
 </div>
 
 <script>
-  // Theme toggle functionality
-  const themeToggle = document.getElementById('theme-toggle');
-  const sunIcon = document.getElementById('sun-icon');
-  const moonIcon = document.getElementById('moon-icon');
-  const html = document.documentElement;
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle')
+    const sunIcon = document.getElementById('sun-icon')
+    const moonIcon = document.getElementById('moon-icon')
+    const html = document.documentElement
 
-  // Get initial theme from localStorage or default to system preference
-  const getInitialTheme = () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme;
+    // Get initial theme from localStorage or default to system preference
+    const getInitialTheme = () => {
+        const savedTheme = localStorage.getItem('theme')
+        if (savedTheme) {
+            return savedTheme
+        }
+        // Check system preference
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
-    // Check system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  };
 
-  // Apply theme
-  const applyTheme = (theme) => {
-    if (theme === 'dark') {
-      html.classList.add('dark');
-      html.classList.remove('light');
-      sunIcon.classList.add('hidden');
-      moonIcon.classList.remove('hidden');
-    } else {
-      html.classList.add('light');
-      html.classList.remove('dark');
-      sunIcon.classList.remove('hidden');
-      moonIcon.classList.add('hidden');
+    // Apply theme
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            html.classList.add('dark')
+            html.classList.remove('light')
+            sunIcon.classList.add('hidden')
+            moonIcon.classList.remove('hidden')
+        } else {
+            html.classList.add('light')
+            html.classList.remove('dark')
+            sunIcon.classList.remove('hidden')
+            moonIcon.classList.add('hidden')
+        }
+        localStorage.setItem('theme', theme)
     }
-    localStorage.setItem('theme', theme);
-  };
 
-  // Initialize theme
-  const initialTheme = getInitialTheme();
-  applyTheme(initialTheme);
+    // Initialize theme
+    const initialTheme = getInitialTheme()
+    applyTheme(initialTheme)
 
-  // Toggle theme on button click
-  themeToggle?.addEventListener('click', () => {
-    const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applyTheme(newTheme);
-  });
+    // Toggle theme on button click
+    themeToggle?.addEventListener('click', () => {
+        const currentTheme = html.classList.contains('dark') ? 'dark' : 'light'
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+        applyTheme(newTheme)
+    })
 
-  // Listen for system theme changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) {
-      applyTheme(e.matches ? 'dark' : 'light');
-    }
-  });
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            applyTheme(e.matches ? 'dark' : 'light')
+        }
+    })
 </script>
